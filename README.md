@@ -1,4 +1,4 @@
-# ACEH TICKET TRAVEL CAR (ATTC)
+# **ACEH TICKET TRAVEL CAR (ATTC)**
 
 ![Sistem Pemesanan Tiket Travel Mobil](https://cdn.icon-icons.com/icons2/12/PNG/256/travel_car_BMV_1741.png)
 
@@ -10,21 +10,47 @@ Sistem Pemesanan Tiket Travel Mobil adalah aplikasi mobile yang memudahkan pengg
 
 | Foto                                               | Peran                                                                                     |
 |----------------------------------------------------|-------------------------------------------------------------------------------------------|
-| <div style="text-align: center;"> ![TEUNGKU ZULKIFLI](https://avatars.githubusercontent.com/u/120408238?v=4)  <br> **TEUNGKU ZULKIFLI** </div> | **Manajer Proyek** - Bertanggung jawab untuk mengelola keseluruhan proyek dan memastikan semua berjalan sesuai rencana. |
-| <div style="text-align: center;"> ![Muhammad Yusuf](https://avatars.githubusercontent.com/u/112492742?v=4) <br> **Muhammad Yusuf** </div> | **Desainer UI/UX** - Mendesain antarmuka pengguna dan pengalaman pengguna yang menarik dan intuitif. |
-| <div style="text-align: center;"> ![Muhammad Rizana Fajri](https://avatars.githubusercontent.com/u/112504032?v=4) <br> **Muhammad Rizana Fajri** </div> | **Desainer UI/UX** - Bekerja sama dalam menciptakan desain yang estetis dan fungsional. |
-| <div style="text-align: center;"> ![Ahmad Maulidi](https://avatars.githubusercontent.com/u/112678307?v=4) <br> **Ahmad Maulidi** </div> | **Pengembang Backend** - Mengembangkan logika server dan integrasi basis data untuk mendukung aplikasi. |
-| <div style="text-align: center;"> ![MHD ZULKHAIRI](https://avatars.githubusercontent.com/u/112515424?v=4) <br> **MHD ZULKHAIRI** </div> | **Pengembang Frontend** - Bertanggung jawab untuk implementasi visual aplikasi dan interaksi pengguna. |
-| <div style="text-align: center;"> ![Rahmat Hidayat](https://avatars.githubusercontent.com/u/160695745?v=4) <br> **Rahmat Hidayat** </div> | **Pengembang Database** - Mengelola dan merancang struktur database yang efisien untuk aplikasi. |
-
-
+| <div align="center"> ![TEUNGKU ZULKIFLI](https://avatars.githubusercontent.com/u/120408238?v=4)  <br> **TEUNGKU ZULKIFLI** </div> | **Manajer Proyek** - Bertanggung jawab untuk mengelola keseluruhan proyek dan memastikan semua berjalan sesuai rencana. |
+| <div align="center"> ![Muhammad Yusuf](https://avatars.githubusercontent.com/u/112492742?v=4) <br> **Muhammad Yusuf** </div> | **Desainer UI/UX** - Mendesain antarmuka pengguna dan pengalaman pengguna yang menarik dan intuitif. |
+| <div align="center"> ![Muhammad Rizana Fajri](https://avatars.githubusercontent.com/u/112504032?v=4) <br> **Muhammad Rizana Fajri** </div> | **Desainer UI/UX** - Bekerja sama dalam menciptakan desain yang estetis dan fungsional. |
+| <div align="center"> ![Ahmad Maulidi](https://avatars.githubusercontent.com/u/112678307?v=4) <br> **Ahmad Maulidi** </div> | **Pengembang Backend** - Mengembangkan logika server dan integrasi basis data untuk mendukung aplikasi. |
+| <div align="center"> ![MHD ZULKHAIRI](https://avatars.githubusercontent.com/u/112515424?v=4) <br> **MHD ZULKHAIRI** </div> | **Pengembang Frontend** - Bertanggung jawab untuk implementasi visual aplikasi dan interaksi pengguna. |
+| <div align="center"> ![Rahmat Hidayat](https://avatars.githubusercontent.com/u/160695745?v=4) <br> **Rahmat Hidayat** </div> | **Pengembang Database** - Mengelola dan merancang struktur database yang efisien untuk aplikasi. |
 
 ## Fitur Utama
 
 - **PESAN TIKET**: 
-  - Pemesanan tiket secara online guna menghindari pungli.
+  - Pemesanan tiket secara online untuk menghindari pungli.
 
 ## Teknologi yang Digunakan
 
 - **Flutter**: Framework untuk membangun aplikasi mobile.
 - **Firebase**: Backend untuk autentikasi dan database.
+
+---
+
+# **Jobdesk Tim Proyek Sistem Ticket Travel Car** 🏃🏻‍♂️‍➡️ **21 Oktober 2024** s/d 🎯 **31 Oktober 2024** 🏆
+
+## **Pembagian Tugas:**
+
+### 1. **Muhammad Yusuf** 
+   - **Tugas:** Membangun dan mendesain **Home Page**.
+  
+### 2. **Muhammad Rizana Fajri** 
+   - **Tugas:** Mengimplementasikan dan menguji **Login Page**.
+  
+### 3. **Ahmad Maulidi** 
+   - **Tugas:** Menangani **Navigasi Page** termasuk **Menu Bawah** (Bottom Navigation).
+  
+### 4. **MHD Zulkhairi** 
+   - **Tugas:** Mengembangkan halaman **Settings Page** untuk pengaturan aplikasi.
+  
+### 5. **Rahmat Hidayat** 
+   - **Tugas:** Mengimplementasikan **Profile Page**, termasuk integrasi dengan data pengguna.
+
+---
+
+### **Catatan:**
+- Setiap anggota diharapkan menyelesaikan tugas sesuai dengan deadline yang telah ditetapkan.
+- Pastikan semua komponen diuji dengan baik sebelum digabungkan dalam proyek utama.
+- Jika ada kendala atau pertanyaan, segera koordinasikan dengan tim melalui channel komunikasi yang disepakati.
