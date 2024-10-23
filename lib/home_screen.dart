@@ -23,32 +23,55 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Daftar tiket yusuf'),
+        title: Text('Daftar Tiket Yusuf'),
+        backgroundColor: Colors.blue[800],
       ),
-      body: ListView.builder(
-        itemCount: tickets.length,
-        itemBuilder: (context, index) {
-          final ticket = tickets[index];
-          return Card(
-            child: ListTile(
-              leading: Image.asset(
-                ticket['image']!,
-                width: 50,
-                height: 50,
-                fit: BoxFit.cover,
+      body: Container(
+        child: ListView.builder(
+          itemCount: tickets.length,
+          itemBuilder: (context, index) {
+            final ticket = tickets[index];
+            return Card(
+              elevation: 5,
+              margin: EdgeInsets.all(10),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
               ),
-              title: Text(ticket['title']!),
-              subtitle: Text(ticket['price']!),
-            ),
-          );
-        },
+              child: ListTile(
+                leading: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.asset(
+                    ticket['image']!,
+                    width: 80,
+                    height: 80,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                title: Text(
+                  ticket['title']!,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                subtitle: Text(
+                  ticket['price']!,
+                  style: TextStyle(fontSize: 16, color: Colors.green),
+                ),
+                trailing: ElevatedButton(
+                  onPressed: () {
+                    // Tambahkan aksi saat tombol ditekan
+                  },
+                  child: Text('Pesan'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue[800],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: HomeScreen(),
-  ));
 }
