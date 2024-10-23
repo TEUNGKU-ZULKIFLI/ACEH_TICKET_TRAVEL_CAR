@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'home_screen.dart';
 import 'profile_screen.dart';
 import 'settings_screen.dart';
-import 'login_page.dart';
+import 'register_page.dart';
 
 class BottomNavPage extends StatefulWidget {
   @override
@@ -35,7 +35,7 @@ class _BottomNavPageState extends State<BottomNavPage> {
             onPressed: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => LoginPage()),
+                MaterialPageRoute(builder: (context) => RegisterPage()),
               );
             },
           ),
