@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Daftar Tiket Travel'),
+        title: Text('Daftar tiket yusuf'),
       ),
       body: ListView.builder(
         itemCount: tickets.length,
