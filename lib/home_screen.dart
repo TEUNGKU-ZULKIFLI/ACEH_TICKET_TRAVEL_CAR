@@ -4,26 +4,27 @@ class HomeScreen extends StatelessWidget {
   final List<Map<String, String>> tickets = [
     {
       'image': 'assets/img/hiace_modern.png',
-      'title': 'Travel ke Kota A',
-      'price': 'Rp 100.000'
+      'title': 'Travel Lhoksemawe-Banda Aceh',
+      'price': 'Rp 150.000'
     },
     {
       'image': 'assets/img/hiace_coklat.png',
-      'title': 'Travel ke Kota B',
-      'price': 'Rp 120.000'
+      'title': 'Travel Lhoksemawe-Medan',
+      'price': 'Rp 1500.000'
     },
     {
       'image': 'assets/img/hiace_putih.png',
-      'title': 'Travel ke Kota C',
-      'price': 'Rp 150.000'
+      'title': 'Travel Lhoksemawe-Langsa',
+      'price': 'Rp 60.000'
     },
+    
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Daftar Tiket Yusuf'),
+        title: Text('Daftar Tiket Trevel.Com'),
         backgroundColor: Colors.blue[800],
       ),
       body: Container(
