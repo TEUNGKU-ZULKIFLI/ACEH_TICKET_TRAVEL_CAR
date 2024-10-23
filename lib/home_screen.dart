@@ -10,7 +10,7 @@ class HomeScreen extends StatelessWidget {
     {
       'image': 'assets/img/hiace_coklat.png',
       'title': 'Travel Lhoksemawe-Medan',
-      'price': 'Rp 1500.000'
+      'price': 'Rp 150.000'
     },
     {
       'image': 'assets/img/hiace_putih.png',
