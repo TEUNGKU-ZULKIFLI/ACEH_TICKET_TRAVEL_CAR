@@ -28,7 +28,7 @@ class _BottomNavPageState extends State<BottomNavPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Dashboard'),
+        title: Text('ACEH TIKET'),
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
