@@ -9,23 +9,15 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Map<String, String>> tickets = [
     {
       'image': 'assets/img/hiace_modern.png',
-      'title': 'Mobil-Hiace',
-      'price': 'Rp 100.000'
-      
     },
     {
       'image': 'assets/img/hiace_coklat.png',
-      'title': 'Travel ke Kota B',
-      'price': 'Rp 120.000'
     },
     {
       'image': 'assets/img/hiace_putih.png',
-      'title': 'Travel ke Kota C',
-      'price': 'Rp 150.000'
     },
   ];
 
-  String searchQuery = '';
   String selectedOriginCity = 'Pilih Kota Asal';
   String selectedDestinationCity = 'Pilih Kota Tujuan';
   int selectedSeats = 1; // Jumlah kursi default
@@ -38,37 +30,195 @@ class _HomeScreenState extends State<HomeScreen> {
     'Idi'
   ];
 
+  // Daftar kursi
+  final List<int> availableSeats = List.generate(10, (index) => index + 1);
+
+  // Daftar untuk menyimpan riwayat pembayaran
+  List<Map<String, dynamic>> paymentHistory = [];
+
+  void showPaymentScreen() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Pembayaran Tiket'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Anda akan membayar untuk:'),
+              Text('Dari: $selectedOriginCity'),
+              Text('Ke: $selectedDestinationCity'),
+              Text('Jumlah Kursi: $selectedSeats'),
+              SizedBox(height: 20),
+              Text('Metode Pembayaran:'),
+              DropdownButton<String>(
+                items: [
+                  DropdownMenuItem(value: 'Kartu Kredit', child: Text('Kartu Kredit')),
+                  DropdownMenuItem(value: 'Transfer Bank', child: Text('Transfer Bank')),
+                  DropdownMenuItem(value: 'E-Wallet', child: Text('E-Wallet')),
+                ],
+                onChanged: (String? value) {
+                  // Logika untuk pemilihan metode pembayaran
+                },
+                hint: Text('Pilih Metode Pembayaran'),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                // Menyimpan riwayat pembayaran
+                paymentHistory.add({
+                  'origin': selectedOriginCity,
+                  'destination': selectedDestinationCity,
+                  'seats': selectedSeats,
+                  'timestamp': DateTime.now().toString(),
+                });
+
+                Navigator.of(context).pop();
+                // Tampilkan pesan sukses
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Pembayaran berhasil!')),
+                );
+              },
+              child: Text('Bayar'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Batal'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showPaymentHistory() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Riwayat Pembayaran'),
+          content: SizedBox(
+            width: double.maxFinite,
+            child: ListView.builder(
+              itemCount: paymentHistory.length,
+              itemBuilder: (context, index) {
+                final payment = paymentHistory[index];
+                return ListTile(
+                  title: Text('Dari: ${payment['origin']} ke ${payment['destination']}'),
+                  subtitle: Text('Jumlah Kursi: ${payment['seats']}\nTanggal: ${payment['timestamp']}'),
+                  trailing: IconButton(
+                    icon: Icon(Icons.print),
+                    onPressed: () {
+                      // Logika untuk mencetak slip pembayaran
+                      print('Slip Pembayaran:\nDari: ${payment['origin']}\nKe: ${payment['destination']}\nJumlah Kursi: ${payment['seats']}\nTanggal: ${payment['timestamp']}');
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Slip pembayaran dicetak!')),
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Tutup'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showSearchResult() {
+    // Tampilkan hasil pencarian tiket (untuk demonstrasi, gunakan dialog)
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Hasil Pencarian Tiket'),
+          content: Text(
+            'Dari: $selectedOriginCity\n'
+            'Ke: $selectedDestinationCity\n'
+            'Jumlah Kursi: $selectedSeats',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Tutup'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                showPaymentScreen(); // Buka layar pembayaran setelah menutup dialog
+              },
+              child: Text('Lanjut ke Pembayaran'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final filteredTickets = tickets.where((ticket) {
-      return ticket['title']!.toLowerCase().contains(searchQuery.toLowerCase());
-    }).toList();
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('Daftar Tiket Yusuf'),
+        title: Text('TRAVEL MOBIL ACEH.COM'),
         backgroundColor: Colors.blue[800],
+        actions: [
+          IconButton(
+            icon: Icon(Icons.history),
+            onPressed: showPaymentHistory,
+            tooltip: 'Riwayat Pembayaran',
+          ),
+        ],
       ),
       body: Padding(
         padding: EdgeInsets.all(10),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center, // Memusatkan item secara vertikal
+          crossAxisAlignment: CrossAxisAlignment.center, // Memusatkan item secara horizontal
           children: [
-            // Pencarian Tiket
-            TextField(
-              onChanged: (value) {
-                setState(() {
-                  searchQuery = value;
-                });
-              },
-              decoration: InputDecoration(
-                labelText: 'Cari Tiket',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                prefixIcon: Icon(Icons.search),
+            // Gambar iklan yang bisa di-slide
+            Container(
+              height: 200,
+              child: PageView(
+                children: tickets.map((ticket) {
+                  return Container(
+                    margin: EdgeInsets.only(right: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 5,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.asset(
+                        ticket['image']!,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  );
+                }).toList(),
               ),
             ),
+
             SizedBox(height: 10),
 
             // Dropdown untuk memilih kota asal
@@ -107,24 +257,32 @@ class _HomeScreenState extends State<HomeScreen> {
 
             SizedBox(height: 10),
 
-            // Pilihan jumlah kursi
+            // Kontrol untuk memilih jumlah kursi
+            Text('Pilih Jumlah Kursi:'),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Jumlah Kursi: $selectedSeats'),
-                IconButton(
-                  icon: Icon(Icons.add),
-                  onPressed: () {
-                    setState(() {
-                      selectedSeats++;
-                    });
-                  },
-                ),
                 IconButton(
                   icon: Icon(Icons.remove),
                   onPressed: () {
                     setState(() {
-                      if (selectedSeats > 1) selectedSeats--;
+                      if (selectedSeats > 1) {
+                        selectedSeats--;
+                      }
+                    });
+                  },
+                ),
+                Text(
+                  '$selectedSeats',
+                  style: TextStyle(fontSize: 24),
+                ),
+                IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: () {
+                    setState(() {
+                      if (selectedSeats < 10) { // Mengatur batas maksimum kursi
+                        selectedSeats++;
+                      }
                     });
                   },
                 ),
@@ -133,237 +291,25 @@ class _HomeScreenState extends State<HomeScreen> {
 
             SizedBox(height: 10),
 
-            // Gambar iklan mobil
-            Container(
-              height: 200,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: tickets.length,
-                itemBuilder: (context, index) {
-                  final ticket = tickets[index];
-                  return Container(
-                    width: 160,
-                    margin: EdgeInsets.only(right: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black26,
-                          blurRadius: 5,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                      color: Colors.white,
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Stack(
-                        children: [
-                          Image.asset(
-                            ticket['image']!,
-                            width: 160,
-                            height: 200,
-                            fit: BoxFit.cover,
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            left: 0,
-                            right: 0,
-                            child: Container(
-                              color: Colors.black54,
-                              padding: EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    ticket['title']!,
-                                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    ticket['price']!,
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-
-            SizedBox(height: 10),
-
-            // Daftar Tiket
-            Expanded(
-              child: ListView.builder(
-                itemCount: filteredTickets.length,
-                itemBuilder: (context, index) {
-                  final ticket = filteredTickets[index];
-                  return Card(
-                    elevation: 5,
-                    margin: EdgeInsets.all(10),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: ListTile(
-                      leading: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.asset(
-                          ticket['image']!,
-                          width: 80,
-                          height: 80,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      title: Text(
-                        ticket['title']!,
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Text(
-                        ticket['price']!,
-                        style: TextStyle(fontSize: 16, color: Colors.green),
-                      ),
-                      trailing: ElevatedButton(
-                        onPressed: () {
-                          // Navigasi ke layar pemesanan tiket
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => BookingScreen(
-                                title: ticket['title']!,
-                                price: ticket['price']!,
-                                originCity: selectedOriginCity,
-                                destinationCity: selectedDestinationCity,
-                                seats: selectedSeats,
-                              ),
-                            ),
-                          );
-                        },
-                        child: Text('Pesan'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue[800],
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class BookingScreen extends StatelessWidget {
-  final String title;
-  final String price;
-  final String originCity;
-  final String destinationCity;
-  final int seats;
-
-  BookingScreen({
-    required this.title,
-    required this.price,
-    required this.originCity,
-    required this.destinationCity,
-    required this.seats,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Pesan Tiket'),
-        backgroundColor: Colors.blue[800],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Detail Pemesanan',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            Text('Judul: $title', style: TextStyle(fontSize: 18)),
-            Text('Harga: $price', style: TextStyle(fontSize: 18)),
-            Text('Kota Asal: $originCity', style: TextStyle(fontSize: 18)),
-            Text('Kota Tujuan: $destinationCity', style: TextStyle(fontSize: 18)),
-            Text('Jumlah Kursi: $seats', style: TextStyle(fontSize: 18)),
-            SizedBox(height: 20),
+            // Tombol Cari
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  // Tindakan ketika tombol 'Pesan Sekarang' ditekan
-                  _showConfirmationDialog(context);
+                  // Tampilkan hasil pencarian tiket
+                  showSearchResult();
                 },
-                child: Text('Pesan Sekarang'),
+                child: Text('Cari Tiket'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue[800],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
               ),
             ),
           ],
         ),
       ),
-    );
-  }
-
-  void _showConfirmationDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Konfirmasi Pemesanan"),
-          content: Text('Apakah Anda yakin ingin memesan tiket ini?'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text("Batal"),
-            ),
-            TextButton(
-              onPressed: () {
-                // Logika pemesanan tiket bisa ditambahkan di sini
-                Navigator.of(context).pop();
-                _showSuccessDialog(context);
-              },
-              child: Text("Konfirmasi"),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _showSuccessDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Pemesanan Berhasil"),
-          content: Text('Tiket Anda telah dipesan!'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text("OK"),
-            ),
-          ],
-        );
-      },
     );
   }
 }
