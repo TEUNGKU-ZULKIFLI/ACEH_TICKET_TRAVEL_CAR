@@ -18,7 +18,7 @@ class _LoginPageState extends State<LoginPage> {
       String password = _passwordController.text;
 
       // Simulasi autentikasi
-      if (username == 'admin' && password == '123') {
+      if (username == '1' && password == '1') {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => BottomNavPage()),

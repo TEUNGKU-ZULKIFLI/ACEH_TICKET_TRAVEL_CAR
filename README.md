@@ -34,19 +34,19 @@ Sistem Pemesanan Tiket Travel Mobil adalah aplikasi mobile yang memudahkan pengg
 ## **Pembagian Tugas:**
 
 ### 1. **Muhammad Yusuf** 
-   - **Tugas:** Membangun dan mendesain **Home Page**.
+   - **Tugas:** Membangun dan mendesain **Home Page** (home_screen.dart).
   
 ### 2. **Muhammad Rizana Fajri** 
-   - **Tugas:** Mengimplementasikan dan menguji **Login Page**.
+   - **Tugas:** Mengimplementasikan dan menguji **Login Page** (login_page.dart).
   
 ### 3. **Ahmad Maulidi** 
-   - **Tugas:** Menangani **Navigasi Page** termasuk **Menu Bawah** (Bottom Navigation).
+   - **Tugas:** Menangani **Navigasi Page** termasuk **Menu Bawah** (bottom_nav_page.dart).
   
 ### 4. **MHD Zulkhairi** 
-   - **Tugas:** Mengembangkan halaman **Settings Page** untuk pengaturan aplikasi.
+   - **Tugas:** Mengembangkan halaman **Settings Page** untuk pengaturan aplikasi (settings_screen.dart).
   
 ### 5. **Rahmat Hidayat** 
-   - **Tugas:** Mengimplementasikan **Profile Page**, termasuk integrasi dengan data pengguna.
+   - **Tugas:** Mengimplementasikan **Profile Page**, termasuk integrasi dengan data pengguna (profile_screen.dart).
 
 ---
 

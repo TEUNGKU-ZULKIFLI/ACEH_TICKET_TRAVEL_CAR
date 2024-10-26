@@ -1,8 +1,8 @@
+import 'package:aceh_ticket_travel_car/loading_page.dart';
 import 'package:flutter/material.dart';
 import 'home_screen.dart';
 import 'profile_screen.dart';
 import 'settings_screen.dart';
-import 'login_page.dart';
 
 class BottomNavPage extends StatefulWidget {
   @override
@@ -28,14 +28,14 @@ class _BottomNavPageState extends State<BottomNavPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Dashboard'),
+        title: Text('ACEH TIKET'),
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
             onPressed: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => LoginPage()),
+                MaterialPageRoute(builder: (context) => LoadingPage()),
               );
             },
           ),
