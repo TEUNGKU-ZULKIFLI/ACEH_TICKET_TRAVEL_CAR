@@ -222,37 +222,55 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(height: 10),
 
             // Dropdown untuk memilih kota asal
-            DropdownButton<String>(
-              value: selectedOriginCity,
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedOriginCity = newValue!;
-                });
-              },
-              items: ['Pilih Kota Asal', ...cities].map<DropdownMenuItem<String>>((String city) {
-                return DropdownMenuItem<String>(
-                  value: city,
-                  child: Text(city),
-                );
-              }).toList(),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Dari:',
+                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                ),
+                DropdownButton<String>(
+                  value: selectedOriginCity,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedOriginCity = newValue!;
+                    });
+                  },
+                  items: ['Pilih Kota Asal', ...cities].map<DropdownMenuItem<String>>((String city) {
+                    return DropdownMenuItem<String>(
+                      value: city,
+                      child: Text(city),
+                    );
+                  }).toList(),
+                ),
+              ],
             ),
 
             SizedBox(height: 10),
 
             // Dropdown untuk memilih kota tujuan
-            DropdownButton<String>(
-              value: selectedDestinationCity,
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedDestinationCity = newValue!;
-                });
-              },
-              items: ['Pilih Kota Tujuan', ...cities].map<DropdownMenuItem<String>>((String city) {
-                return DropdownMenuItem<String>(
-                  value: city,
-                  child: Text(city),
-                );
-              }).toList(),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Ke:',
+                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                ),
+                DropdownButton<String>(
+                  value: selectedDestinationCity,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedDestinationCity = newValue!;
+                    });
+                  },
+                  items: ['Pilih Kota Tujuan', ...cities].map<DropdownMenuItem<String>>((String city) {
+                    return DropdownMenuItem<String>(
+                      value: city,
+                      child: Text(city),
+                    );
+                  }).toList(),
+                ),
+              ],
             ),
 
             SizedBox(height: 10),
