@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -6,23 +8,23 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final List<Map<String, String>> tickets = [
+  final List<Map<String, String>> tiket = [
     {
-      'image': 'assets/img/hiace_modern.png',
+      'gambar': 'assets/img/hiace_modern.png',
     },
     {
-      'image': 'assets/img/hiace_coklat.png',
+      'gambar': 'assets/img/hiace_coklat.png',
     },
     {
-      'image': 'assets/img/hiace_putih.png',
+      'gambar': 'assets/img/hiace_putih.png',
     },
   ];
 
-  String selectedOriginCity = 'Pilih Kota Asal';
-  String selectedDestinationCity = 'Pilih Kota Tujuan';
-  int selectedSeats = 1; // Jumlah kursi default
+  String kotaAsalTerpilih = 'Pilih Kota Asal';
+  String kotaTujuanTerpilih = 'Pilih Kota Tujuan';
+  int jumlahKursiTerpilih = 1;
 
-  final List<String> cities = [
+  final List<String> kota = [
     'Kota Lhoksemawe',
     'Kota Lhoksukon',
     'Sigli',
@@ -30,103 +32,61 @@ class _HomeScreenState extends State<HomeScreen> {
     'Idi'
   ];
 
-  // Daftar kursi
-  final List<int> availableSeats = List.generate(10, (index) => index + 1);
+  void tampilkanHasilPencarian() {
+    final tiketTersedia = kotaAsalTerpilih != 'Pilih Kota Asal' &&
+        kotaTujuanTerpilih != 'Pilih Kota Tujuan' &&
+        kotaAsalTerpilih != kotaTujuanTerpilih;
 
-  // Daftar untuk menyimpan riwayat pembayaran
-  List<Map<String, dynamic>> paymentHistory = [];
-
-  void showPaymentScreen() {
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Pembayaran Tiket'),
+          title: Text('Hasil Pencarian Tiket'),
+          content: tiketTersedia
+              ? Text(
+                  'Tiket tersedia dari $kotaAsalTerpilih ke $kotaTujuanTerpilih.\n'
+                  'Jumlah Kursi: $jumlahKursiTerpilih',
+                )
+              : Text(
+                  'Maaf, tiket tidak tersedia untuk pilihan Anda.',
+                ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Tutup'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void tampilkanLayananPelanggan() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Layanan Pelanggan'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Anda akan membayar untuk:'),
-              Text('Dari: $selectedOriginCity'),
-              Text('Ke: $selectedDestinationCity'),
-              Text('Jumlah Kursi: $selectedSeats'),
-              SizedBox(height: 20),
-              Text('Metode Pembayaran:'),
-              DropdownButton<String>(
-                items: [
-                  DropdownMenuItem(value: 'Kartu Kredit', child: Text('Kartu Kredit')),
-                  DropdownMenuItem(value: 'Transfer Bank', child: Text('Transfer Bank')),
-                  DropdownMenuItem(value: 'E-Wallet', child: Text('E-Wallet')),
-                ],
-                onChanged: (String? value) {
-                  // Logika untuk pemilihan metode pembayaran
-                },
-                hint: Text('Pilih Metode Pembayaran'),
+              ListTile(
+                leading: Icon(Icons.phone),
+                title: Text('WhatsApp: +62 123 4567 890'),
+                onTap: () => bukaWhatsApp('+621234567890'),
+              ),
+              ListTile(
+                leading: Icon(Icons.email),
+                title: Text('Email: support@travelmobilaceh.com'),
+                onTap: () => kirimEmail('support@travelmobilaceh.com'),
               ),
             ],
           ),
           actions: [
             TextButton(
               onPressed: () {
-                // Menyimpan riwayat pembayaran
-                paymentHistory.add({
-                  'origin': selectedOriginCity,
-                  'destination': selectedDestinationCity,
-                  'seats': selectedSeats,
-                  'timestamp': DateTime.now().toString(),
-                });
-
-                Navigator.of(context).pop();
-                // Tampilkan pesan sukses
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Pembayaran berhasil!')),
-                );
-              },
-              child: Text('Bayar'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Batal'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void showPaymentHistory() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Riwayat Pembayaran'),
-          content: SizedBox(
-            width: double.maxFinite,
-            child: ListView.builder(
-              itemCount: paymentHistory.length,
-              itemBuilder: (context, index) {
-                final payment = paymentHistory[index];
-                return ListTile(
-                  title: Text('Dari: ${payment['origin']} ke ${payment['destination']}'),
-                  subtitle: Text('Jumlah Kursi: ${payment['seats']}\nTanggal: ${payment['timestamp']}'),
-                  trailing: IconButton(
-                    icon: Icon(Icons.print),
-                    onPressed: () {
-                      // Logika untuk mencetak slip pembayaran
-                      print('Slip Pembayaran:\nDari: ${payment['origin']}\nKe: ${payment['destination']}\nJumlah Kursi: ${payment['seats']}\nTanggal: ${payment['timestamp']}');
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Slip pembayaran dicetak!')),
-                      );
-                    },
-                  ),
-                );
-              },
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
                 Navigator.of(context).pop();
               },
               child: Text('Tutup'),
@@ -137,36 +97,22 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void showSearchResult() {
-    // Tampilkan hasil pencarian tiket (untuk demonstrasi, gunakan dialog)
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Hasil Pencarian Tiket'),
-          content: Text(
-            'Dari: $selectedOriginCity\n'
-            'Ke: $selectedDestinationCity\n'
-            'Jumlah Kursi: $selectedSeats',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Tutup'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                showPaymentScreen(); // Buka layar pembayaran setelah menutup dialog
-              },
-              child: Text('Lanjut ke Pembayaran'),
-            ),
-          ],
-        );
-      },
-    );
+  Future<void> bukaWhatsApp(String nomorTelepon) async {
+    final url = 'https://wa.me/$nomorTelepon';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Tidak dapat membuka WhatsApp';
+    }
+  }
+
+  Future<void> kirimEmail(String email) async {
+    final url = 'mailto:$email';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Tidak dapat membuka aplikasi email';
+    }
   }
 
   @override
@@ -177,23 +123,22 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.blue[800],
         actions: [
           IconButton(
-            icon: Icon(Icons.history),
-            onPressed: showPaymentHistory,
-            tooltip: 'Riwayat Pembayaran',
+            icon: Icon(Icons.support_agent),
+            onPressed: tampilkanLayananPelanggan,
+            tooltip: 'Layanan Pelanggan',
           ),
         ],
       ),
       body: Padding(
         padding: EdgeInsets.all(10),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center, // Memusatkan item secara vertikal
-          crossAxisAlignment: CrossAxisAlignment.center, // Memusatkan item secara horizontal
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Gambar iklan yang bisa di-slide
             Container(
               height: 200,
               child: PageView(
-                children: tickets.map((ticket) {
+                children: tiket.map((t) {
                   return Container(
                     margin: EdgeInsets.only(right: 10),
                     decoration: BoxDecoration(
@@ -209,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Image.asset(
-                        ticket['image']!,
+                        t['gambar']!,
                         width: double.infinity,
                         fit: BoxFit.cover,
                       ),
@@ -218,10 +163,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 }).toList(),
               ),
             ),
-
+            
             SizedBox(height: 10),
-
-            // Dropdown untuk memilih kota asal
+            
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -230,25 +174,24 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(fontSize: 12, color: Colors.grey),
                 ),
                 DropdownButton<String>(
-                  value: selectedOriginCity,
-                  onChanged: (String? newValue) {
+                  value: kotaAsalTerpilih,
+                  onChanged: (String? nilaiBaru) {
                     setState(() {
-                      selectedOriginCity = newValue!;
+                      kotaAsalTerpilih = nilaiBaru!;
                     });
                   },
-                  items: ['Pilih Kota Asal', ...cities].map<DropdownMenuItem<String>>((String city) {
+                  items: ['Pilih Kota Asal', ...kota].map<DropdownMenuItem<String>>((String kota) {
                     return DropdownMenuItem<String>(
-                      value: city,
-                      child: Text(city),
+                      value: kota,
+                      child: Text(kota),
                     );
                   }).toList(),
                 ),
               ],
             ),
-
+            
             SizedBox(height: 10),
-
-            // Dropdown untuk memilih kota tujuan
+            
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -257,16 +200,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(fontSize: 12, color: Colors.grey),
                 ),
                 DropdownButton<String>(
-                  value: selectedDestinationCity,
-                  onChanged: (String? newValue) {
+                  value: kotaTujuanTerpilih,
+                  onChanged: (String? nilaiBaru) {
                     setState(() {
-                      selectedDestinationCity = newValue!;
+                      kotaTujuanTerpilih = nilaiBaru!;
                     });
                   },
-                  items: ['Pilih Kota Tujuan', ...cities].map<DropdownMenuItem<String>>((String city) {
+                  items: ['Pilih Kota Tujuan', ...kota].map<DropdownMenuItem<String>>((String kota) {
                     return DropdownMenuItem<String>(
-                      value: city,
-                      child: Text(city),
+                      value: kota,
+                      child: Text(kota),
                     );
                   }).toList(),
                 ),
@@ -275,7 +218,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
             SizedBox(height: 10),
 
-            // Kontrol untuk memilih jumlah kursi
             Text('Pilih Jumlah Kursi:'),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -284,22 +226,22 @@ class _HomeScreenState extends State<HomeScreen> {
                   icon: Icon(Icons.remove),
                   onPressed: () {
                     setState(() {
-                      if (selectedSeats > 1) {
-                        selectedSeats--;
+                      if (jumlahKursiTerpilih > 1) {
+                        jumlahKursiTerpilih--;
                       }
                     });
                   },
                 ),
                 Text(
-                  '$selectedSeats',
+                  '$jumlahKursiTerpilih',
                   style: TextStyle(fontSize: 24),
                 ),
                 IconButton(
                   icon: Icon(Icons.add),
                   onPressed: () {
                     setState(() {
-                      if (selectedSeats < 10) { // Mengatur batas maksimum kursi
-                        selectedSeats++;
+                      if (jumlahKursiTerpilih < 10) {
+                        jumlahKursiTerpilih++;
                       }
                     });
                   },
@@ -309,13 +251,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
             SizedBox(height: 10),
 
-            // Tombol Cari
             Center(
               child: ElevatedButton(
-                onPressed: () {
-                  // Tampilkan hasil pencarian tiket
-                  showSearchResult();
-                },
+                onPressed: tampilkanHasilPencarian,
                 child: Text('Cari Tiket'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue[800],
