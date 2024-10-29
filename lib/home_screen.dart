@@ -23,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String kotaAsalTerpilih = 'Pilih Kota Asal';
   String kotaTujuanTerpilih = 'Pilih Kota Tujuan';
   int jumlahKursiTerpilih = 1;
+  DateTime? tanggalTerpilih; // Tambahkan variabel untuk tanggal
 
   final List<String> kota = [
     'Kota Lhoksemawe',
@@ -32,10 +33,17 @@ class _HomeScreenState extends State<HomeScreen> {
     'Idi'
   ];
 
+  final List<String> riwayatTujuan = [];
+
   void tampilkanHasilPencarian() {
     final tiketTersedia = kotaAsalTerpilih != 'Pilih Kota Asal' &&
         kotaTujuanTerpilih != 'Pilih Kota Tujuan' &&
         kotaAsalTerpilih != kotaTujuanTerpilih;
+
+    if (tiketTersedia) {
+      // Tambahkan kota tujuan ke riwayat
+      riwayatTujuan.add(kotaTujuanTerpilih);
+    }
 
     showDialog(
       context: context,
@@ -44,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
           title: Text('Hasil Pencarian Tiket'),
           content: tiketTersedia
               ? Text(
-                  'Tiket tersedia dari $kotaAsalTerpilih ke $kotaTujuanTerpilih.\n'
+                  'Tiket tersedia dari $kotaAsalTerpilih ke $kotaTujuanTerpilih pada ${tanggalTerpilih != null ? tanggalTerpilih!.toLocal().toString().split(' ')[0] : 'Tanggal tidak dipilih'}.\n'
                   'Jumlah Kursi: $jumlahKursiTerpilih',
                 )
               : Text(
@@ -115,6 +123,28 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  void navigasiKeRiwayat() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => RiwayatScreen(riwayatTujuan: riwayatTujuan)),
+    );
+  }
+
+  Future<void> pilihTanggal() async {
+    final DateTime? tanggalDipilih = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2101),
+    );
+
+    if (tanggalDipilih != null && tanggalDipilih != tanggalTerpilih) {
+      setState(() {
+        tanggalTerpilih = tanggalDipilih;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,6 +156,11 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(Icons.support_agent),
             onPressed: tampilkanLayananPelanggan,
             tooltip: 'Layanan Pelanggan',
+          ),
+          IconButton(
+            icon: Icon(Icons.history),
+            onPressed: navigasiKeRiwayat,
+            tooltip: 'Riwayat',
           ),
         ],
       ),
@@ -218,6 +253,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
             SizedBox(height: 10),
 
+            Text('Pilih Tanggal:'),
+            TextButton(
+              onPressed: pilihTanggal,
+              child: Text(
+                tanggalTerpilih != null
+                    ? '${tanggalTerpilih!.toLocal()}'.split(' ')[0]
+                    : 'Tanggal tidak dipilih',
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+
+            SizedBox(height: 10),
+
             Text('Pilih Jumlah Kursi:'),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -264,6 +312,33 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class RiwayatScreen extends StatelessWidget {
+  final List<String> riwayatTujuan;
+
+  RiwayatScreen({required this.riwayatTujuan});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Riwayat Tujuan'),
+        backgroundColor: Colors.blue[800],
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(10),
+        child: ListView.builder(
+          itemCount: riwayatTujuan.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Text(riwayatTujuan[index]),
+            );
+          },
         ),
       ),
     );
