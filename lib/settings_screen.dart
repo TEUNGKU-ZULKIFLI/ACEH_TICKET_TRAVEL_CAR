@@ -14,10 +14,10 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  // Variabel untuk menyimpan status pengaturan
+
   bool _notificationsEnabled = true; // Notifikasi aktif
-  bool _darkTheme = false; // Tema gelap
-  String _selectedLanguage = 'English'; // Bahasa default
+
+  String _selectedLanguage = 'Indonesia'; // Bahasa default
 
   @override
   Widget build(BuildContext context) {
@@ -28,27 +28,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          // 1. Pengaturan Akun
-          ListTile(
-            title: const Text('Pengaturan Akun'),
-            leading: const Icon(Icons.account_circle),
-            onTap: () {
-              // Tindakan saat akun dipilih
-            },
-          ),
-          const Divider(),
-
-          // 2. Keamanan
+          // 1. Keamanan
           ListTile(
             title: const Text('Keamanan'),
             leading: const Icon(Icons.security),
             onTap: () {
-              // Tindakan saat keamanan dipilih
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SecuritySettingsPage()),
+              );
             },
           ),
           const Divider(),
 
-          // 3. Pengaturan Pembayaran
+          // 2. Pengaturan Pembayaran
           ListTile(
             title: const Text('Pengaturan Pembayaran'),
             leading: const Icon(Icons.payment),
@@ -61,7 +54,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           const Divider(),
 
-          // 4. Bantuan & Dukungan
+          // 3. Bantuan & Dukungan
           ListTile(
             title: const Text('Bantuan dan Dukungan'),
             leading: const Icon(Icons.help),
@@ -74,19 +67,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           const Divider(),
 
-          // 5. Pengaturan Privasi
+          // 4. Bahasa & Wilayah
           ListTile(
-            title: const Text('Pengaturan Privasi'),
-            leading: const Icon(Icons.privacy_tip),
-            onTap: () {
-              // Tindakan saat privasi dipilih
-            },
-          ),
-          const Divider(),
-
-          // 6. Bahasa & Wilayah
-          ListTile(
-            title: const Text('Bahasa & Wilayah'),
+            title: const Text('Bahasa'),
             trailing: const Icon(Icons.language),
             onTap: () {
               _showLanguageSelectionDialog();
@@ -94,19 +77,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           const Divider(),
 
-          // 7. Mode Gelap atau Terang
-          SwitchListTile(
-            title: const Text('Mode Gelap'),
-            value: _darkTheme,
-            onChanged: (bool value) {
-              setState(() {
-                _darkTheme = value;
-              });
-            },
-          ),
-          const Divider(),
-
-          // 8. Notifikasi
+          // 5. Notifikasi
           SwitchListTile(
             title: const Text('Notifikasi Hidup'),
             value: _notificationsEnabled,
@@ -118,7 +89,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           const Divider(),
 
-          // 9. Tentang Aplikasi
+          // 6. Tentang Aplikasi
           ListTile(
             title: const Text('Tentang Aplikasi'),
             subtitle: const Text('Versi 1.0.0'),
@@ -176,6 +147,69 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         );
       },
+    );
+  }
+}
+
+// Halaman Keamanan
+class SecuritySettingsPage extends StatefulWidget {
+  const SecuritySettingsPage({super.key});
+
+  @override
+  State<SecuritySettingsPage> createState() => _SecuritySettingsPageState();
+}
+
+class _SecuritySettingsPageState extends State<SecuritySettingsPage> {
+  final TextEditingController _newPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Pengaturan Keamanan'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: _newPasswordController,
+              obscureText: true,
+              decoration: const InputDecoration(
+                labelText: 'Kata Sandi Baru',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            TextField(
+              controller: _confirmPasswordController,
+              obscureText: true,
+              decoration: const InputDecoration(
+                labelText: 'Konfirmasi Kata Sandi',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: () {
+                if (_newPasswordController.text == _confirmPasswordController.text) {
+                  // Logika untuk menyimpan kata sandi baru
+                  print('Kata Sandi Baru: ${_newPasswordController.text}');
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Kata sandi berhasil diubah!')),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Kata sandi tidak cocok!')),
+                  );
+                }
+              },
+              child: const Text('Ubah Kata Sandi'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -283,20 +317,9 @@ class HelpSupportPage extends StatelessWidget {
             title: 'Kontak Dukungan',
             description: 'Informasi kontak untuk bantuan pelanggan.',
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ContactSupportPage()),
-              );
-            },
-          ),
-          _buildListTile(
-            context,
-            title: 'Umpan Balik',
-            description: 'Kirim umpan balik tentang pengalaman pengguna.',
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => FeedbackPage()),
+              // Tambahkan logika untuk menampilkan kontak dukungan
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Hubungi kami di: support@example.com')),
               );
             },
           ),
@@ -305,14 +328,15 @@ class HelpSupportPage extends StatelessWidget {
     );
   }
 
-  Widget _buildListTile(BuildContext context, {required String title, required String description, required Function() onTap}) {
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 8.0),
-      child: ListTile(
-        title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: Text(description),
-        trailing: const Icon(Icons.arrow_forward),
-        onTap: onTap,
+  Widget _buildListTile(BuildContext context, {required String title, required String description, required VoidCallback onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        margin: const EdgeInsets.symmetric(vertical: 8.0),
+        child: ListTile(
+          title: Text(title),
+          subtitle: Text(description),
+        ),
       ),
     );
   }
@@ -326,73 +350,19 @@ class FAQPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('FAQ'),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: [
-          ListTile(
-            title: const Text('Apa itu sistem tiket travel?'),
-            subtitle: const Text('Sistem untuk memesan tiket travel dengan mudah.'),
-          ),
-          // Tambahkan pertanyaan lain di sini
-        ],
-      ),
-    );
-  }
-}
-
-// Halaman Kontak Dukungan
-class ContactSupportPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Kontak Dukungan'),
-      ),
-      body: Center(
-        child: const Text(
-          'Hubungi kami di: support@example.com\nTelepon: (021) 12345678',
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
-  }
-}
-
-// Halaman Umpan Balik
-class FeedbackPage extends StatelessWidget {
-  final TextEditingController _controller = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Umpan Balik'),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
+        child: ListView(
           children: [
-            const Text('Silakan kirim umpan balik Anda:'),
-            TextField(
-              controller: _controller,
-              maxLines: 5,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Tulis umpan balik...',
-              ),
+            ListTile(
+              title: const Text('Pertanyaan 1'),
+              subtitle: const Text('Jawaban untuk pertanyaan 1.'),
             ),
-            const SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () {
-                // Logika untuk mengirim umpan balik
-                print('Umpan balik: ${_controller.text}');
-                _controller.clear(); // Menghapus teks setelah pengiriman
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Umpan balik terkirim!')),
-                );
-              },
-              child: const Text('Kirim'),
+            ListTile(
+              title: const Text('Pertanyaan 2'),
+              subtitle: const Text('Jawaban untuk pertanyaan 2.'),
             ),
+            // Tambahkan lebih banyak pertanyaan sesuai kebutuhan
           ],
         ),
       ),
