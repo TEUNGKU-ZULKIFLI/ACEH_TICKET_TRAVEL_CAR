@@ -74,8 +74,8 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               ListTile(
                 leading: Icon(Icons.phone),
-                title: Text('WhatsApp: +62 123 4567 890'),
-                onTap: () => bukaWhatsApp('+621234567890'),
+                title: Text('WhatsApp: +62 895600771006'),
+                onTap: () => bukaWhatsApp('+62 895600771006'),
               ),
               ListTile(
                 leading: Icon(Icons.email),
