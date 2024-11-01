@@ -27,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   final List<Map<String, dynamic>> riwayatPencarian = [];
+  final List<Map<String, dynamic>> riwayatPembayaran = [];
 
   void tampilkanHasilPencarian() {
     final tiketTersedia = kotaAsalTerpilih != 'Pilih Kota Asal' &&
@@ -53,6 +54,126 @@ class _HomeScreenState extends State<HomeScreen> {
                   'Jumlah Kursi: $jumlahKursiTerpilih',
                 )
               : Text('Maaf, tiket tidak tersedia untuk pilihan Anda.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Tutup'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                tampilkanMetodePembayaran(); // Panggil metode pembayaran
+              },
+              child: Text('Bayar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void tampilkanMetodePembayaran() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Metode Pembayaran'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: Icon(Icons.monetization_on),
+                title: Text('Transfer Bank'),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  konfirmasiPembayaran('Transfer Bank');
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.credit_card),
+                title: Text('Kartu Kredit'),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  konfirmasiPembayaran('Kartu Kredit');
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.paypal),
+                title: Text('PayPal'),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  konfirmasiPembayaran('PayPal');
+                },
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Tutup'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void konfirmasiPembayaran(String metode) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Konfirmasi Pembayaran'),
+          content: Text('Anda telah memilih metode pembayaran: $metode. Apakah Anda yakin ingin melanjutkan?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                // Simpan ke riwayat pembayaran
+                riwayatPembayaran.add({
+                  'metode': metode,
+                  'jumlahKursi': jumlahKursiTerpilih,
+                  'tanggal': DateTime.now(),
+                });
+                Navigator.of(context).pop();
+                tampilkanRiwayatPembayaran(); // Tampilkan riwayat pembayaran
+              },
+              child: Text('Ya'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Tidak'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void tampilkanRiwayatPembayaran() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Riwayat Pembayaran'),
+          content: Container(
+            width: double.maxFinite,
+            child: ListView.builder(
+              itemCount: riwayatPembayaran.length,
+              itemBuilder: (context, index) {
+                final pembayaran = riwayatPembayaran[index];
+                return ListTile(
+                  title: Text('Metode: ${pembayaran['metode']}'),
+                  subtitle: Text('Jumlah Kursi: ${pembayaran['jumlahKursi']}\nTanggal: ${pembayaran['tanggal']}'),
+                );
+              },
+            ),
+          ),
           actions: [
             TextButton(
               onPressed: () {
@@ -122,7 +243,10 @@ class _HomeScreenState extends State<HomeScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => RiwayatScreen(riwayatPencarian: riwayatPencarian),
+        builder: (context) => RiwayatScreen(
+          riwayatPencarian: riwayatPencarian,
+          riwayatPembayaran: riwayatPembayaran,
+        ),
       ),
     );
   }
@@ -195,9 +319,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 }).toList(),
               ),
             ),
-            
+
             SizedBox(height: 10),
-            
+
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -219,9 +343,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            
+
             SizedBox(height: 10),
-            
+
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -310,32 +434,44 @@ class _HomeScreenState extends State<HomeScreen> {
 
 class RiwayatScreen extends StatelessWidget {
   final List<Map<String, dynamic>> riwayatPencarian;
+  final List<Map<String, dynamic>> riwayatPembayaran;
 
-  RiwayatScreen({required this.riwayatPencarian});
+  RiwayatScreen({required this.riwayatPencarian, required this.riwayatPembayaran});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Riwayat Tujuan'),
+        title: Text('Riwayat Tujuan dan Pembayaran'),
         backgroundColor: Colors.blue[800],
       ),
       body: Padding(
         padding: EdgeInsets.all(10),
-        child: ListView.builder(
-          itemCount: riwayatPencarian.length,
-          itemBuilder: (context, index) {
-            final pencarian = riwayatPencarian[index];
-            return Card(
-              child: ListTile(
-                title: Text('${pencarian['asal']} ke ${pencarian['tujuan']}'),
-                subtitle: Text(
-                  'Tanggal: ${pencarian['tanggal'] != null ? pencarian['tanggal']!.toLocal().toString().split(' ')[0] : 'Tidak dipilih'}\n'
-                  'Jumlah Kursi: ${pencarian['jumlahKursi']}',
+        child: ListView(
+          children: [
+            Text('Riwayat Pencarian Tiket', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            ...riwayatPencarian.map((pencarian) {
+              return Card(
+                child: ListTile(
+                  title: Text('${pencarian['asal']} ke ${pencarian['tujuan']}'),
+                  subtitle: Text(
+                    'Tanggal: ${pencarian['tanggal'] != null ? pencarian['tanggal']!.toLocal().toString().split(' ')[0] : 'Tidak dipilih'}\n'
+                    'Jumlah Kursi: ${pencarian['jumlahKursi']}',
+                  ),
                 ),
-              ),
-            );
-          },
+              );
+            }).toList(),
+            SizedBox(height: 20),
+            Text('Riwayat Pembayaran', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            ...riwayatPembayaran.map((pembayaran) {
+              return Card(
+                child: ListTile(
+                  title: Text('Metode: ${pembayaran['metode']}'),
+                  subtitle: Text('Jumlah Kursi: ${pembayaran['jumlahKursi']}\nTanggal: ${pembayaran['tanggal']}'),
+                ),
+              );
+            }).toList(),
+          ],
         ),
       ),
     );
