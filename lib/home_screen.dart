@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// ignore: depend_on_referenced_packages
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -9,21 +8,15 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final List<Map<String, String>> tiket = [
-    {
-      'gambar': 'assets/img/hiace_modern.png',
-    },
-    {
-      'gambar': 'assets/img/hiace_coklat.png',
-    },
-    {
-      'gambar': 'assets/img/hiace_putih.png',
-    },
+    {'gambar': 'assets/img/hiace_modern.png'},
+    {'gambar': 'assets/img/hiace_coklat.png'},
+    {'gambar': 'assets/img/hiace_putih.png'},
   ];
 
   String kotaAsalTerpilih = 'Pilih Kota Asal';
   String kotaTujuanTerpilih = 'Pilih Kota Tujuan';
   int jumlahKursiTerpilih = 1;
-  DateTime? tanggalTerpilih; // Tambahkan variabel untuk tanggal
+  DateTime? tanggalTerpilih;
 
   final List<String> kota = [
     'Kota Lhoksemawe',
@@ -33,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
     'Idi'
   ];
 
-  final List<String> riwayatTujuan = [];
+  final List<Map<String, dynamic>> riwayatPencarian = [];
 
   void tampilkanHasilPencarian() {
     final tiketTersedia = kotaAsalTerpilih != 'Pilih Kota Asal' &&
@@ -41,8 +34,12 @@ class _HomeScreenState extends State<HomeScreen> {
         kotaAsalTerpilih != kotaTujuanTerpilih;
 
     if (tiketTersedia) {
-      // Tambahkan kota tujuan ke riwayat
-      riwayatTujuan.add(kotaTujuanTerpilih);
+      riwayatPencarian.add({
+        'asal': kotaAsalTerpilih,
+        'tujuan': kotaTujuanTerpilih,
+        'tanggal': tanggalTerpilih,
+        'jumlahKursi': jumlahKursiTerpilih,
+      });
     }
 
     showDialog(
@@ -55,9 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   'Tiket tersedia dari $kotaAsalTerpilih ke $kotaTujuanTerpilih pada ${tanggalTerpilih != null ? tanggalTerpilih!.toLocal().toString().split(' ')[0] : 'Tanggal tidak dipilih'}.\n'
                   'Jumlah Kursi: $jumlahKursiTerpilih',
                 )
-              : Text(
-                  'Maaf, tiket tidak tersedia untuk pilihan Anda.',
-                ),
+              : Text('Maaf, tiket tidak tersedia untuk pilihan Anda.'),
           actions: [
             TextButton(
               onPressed: () {
@@ -126,7 +121,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void navigasiKeRiwayat() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => RiwayatScreen(riwayatTujuan: riwayatTujuan)),
+      MaterialPageRoute(
+        builder: (context) => RiwayatScreen(riwayatPencarian: riwayatPencarian),
+      ),
     );
   }
 
@@ -204,10 +201,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Dari:',
-                  style: TextStyle(fontSize: 12, color: Colors.grey),
-                ),
+                Text('Dari:', style: TextStyle(fontSize: 12, color: Colors.grey)),
                 DropdownButton<String>(
                   value: kotaAsalTerpilih,
                   onChanged: (String? nilaiBaru) {
@@ -215,7 +209,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       kotaAsalTerpilih = nilaiBaru!;
                     });
                   },
-                  items: ['Pilih Kota Asal', ...kota].map<DropdownMenuItem<String>>((String kota) {
+                  items: ['Pilih Kota Asal', ...kota]
+                      .map<DropdownMenuItem<String>>((String kota) {
                     return DropdownMenuItem<String>(
                       value: kota,
                       child: Text(kota),
@@ -230,10 +225,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Ke:',
-                  style: TextStyle(fontSize: 12, color: Colors.grey),
-                ),
+                Text('Ke:', style: TextStyle(fontSize: 12, color: Colors.grey)),
                 DropdownButton<String>(
                   value: kotaTujuanTerpilih,
                   onChanged: (String? nilaiBaru) {
@@ -241,7 +233,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       kotaTujuanTerpilih = nilaiBaru!;
                     });
                   },
-                  items: ['Pilih Kota Tujuan', ...kota].map<DropdownMenuItem<String>>((String kota) {
+                  items: ['Pilih Kota Tujuan', ...kota]
+                      .map<DropdownMenuItem<String>>((String kota) {
                     return DropdownMenuItem<String>(
                       value: kota,
                       child: Text(kota),
@@ -280,10 +273,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     });
                   },
                 ),
-                Text(
-                  '$jumlahKursiTerpilih',
-                  style: TextStyle(fontSize: 24),
-                ),
+                Text('$jumlahKursiTerpilih', style: TextStyle(fontSize: 24)),
                 IconButton(
                   icon: Icon(Icons.add),
                   onPressed: () {
@@ -319,9 +309,9 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class RiwayatScreen extends StatelessWidget {
-  final List<String> riwayatTujuan;
+  final List<Map<String, dynamic>> riwayatPencarian;
 
-  RiwayatScreen({required this.riwayatTujuan});
+  RiwayatScreen({required this.riwayatPencarian});
 
   @override
   Widget build(BuildContext context) {
@@ -333,10 +323,17 @@ class RiwayatScreen extends StatelessWidget {
       body: Padding(
         padding: EdgeInsets.all(10),
         child: ListView.builder(
-          itemCount: riwayatTujuan.length,
+          itemCount: riwayatPencarian.length,
           itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(riwayatTujuan[index]),
+            final pencarian = riwayatPencarian[index];
+            return Card(
+              child: ListTile(
+                title: Text('${pencarian['asal']} ke ${pencarian['tujuan']}'),
+                subtitle: Text(
+                  'Tanggal: ${pencarian['tanggal'] != null ? pencarian['tanggal']!.toLocal().toString().split(' ')[0] : 'Tidak dipilih'}\n'
+                  'Jumlah Kursi: ${pencarian['jumlahKursi']}',
+                ),
+              ),
             );
           },
         ),
