@@ -14,7 +14,6 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-
   bool _notificationsEnabled = true; // Notifikasi aktif
 
   String _selectedLanguage = 'Indonesia'; // Bahasa default
@@ -24,6 +23,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pengaturan'),
+        backgroundColor: Colors.blue[800],
       ),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
@@ -161,7 +161,8 @@ class SecuritySettingsPage extends StatefulWidget {
 
 class _SecuritySettingsPageState extends State<SecuritySettingsPage> {
   final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -193,11 +194,13 @@ class _SecuritySettingsPageState extends State<SecuritySettingsPage> {
             const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
-                if (_newPasswordController.text == _confirmPasswordController.text) {
+                if (_newPasswordController.text ==
+                    _confirmPasswordController.text) {
                   // Logika untuk menyimpan kata sandi baru
                   print('Kata Sandi Baru: ${_newPasswordController.text}');
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Kata sandi berhasil diubah!')),
+                    const SnackBar(
+                        content: Text('Kata sandi berhasil diubah!')),
                   );
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -279,7 +282,9 @@ class _PaymentSettingsPageState extends State<PaymentSettingsPage> {
               // Logika untuk menyimpan metode pembayaran yang dipilih
               print('Metode Pembayaran Terpilih: $_selectedPaymentMethod');
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Metode Pembayaran: $_selectedPaymentMethod disimpan!')),
+                SnackBar(
+                    content: Text(
+                        'Metode Pembayaran: $_selectedPaymentMethod disimpan!')),
               );
             },
             child: const Text('Simpan'),
@@ -319,7 +324,8 @@ class HelpSupportPage extends StatelessWidget {
             onTap: () {
               // Tambahkan logika untuk menampilkan kontak dukungan
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Hubungi kami di: support@example.com')),
+                const SnackBar(
+                    content: Text('Hubungi kami di: support@example.com')),
               );
             },
           ),
@@ -328,7 +334,10 @@ class HelpSupportPage extends StatelessWidget {
     );
   }
 
-  Widget _buildListTile(BuildContext context, {required String title, required String description, required VoidCallback onTap}) {
+  Widget _buildListTile(BuildContext context,
+      {required String title,
+      required String description,
+      required VoidCallback onTap}) {
     return GestureDetector(
       onTap: onTap,
       child: Card(

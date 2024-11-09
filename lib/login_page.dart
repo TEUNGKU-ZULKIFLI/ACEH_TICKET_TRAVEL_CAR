@@ -17,8 +17,27 @@ class _LoginPageState extends State<LoginPage> {
       String username = _usernameController.text;
       String password = _passwordController.text;
 
-      // Simulasi autentikasi
-      if (username == '1' && password == '1') {
+      // Daftar username dan password yang valid
+      List<Map<String, String>> users = [
+        {'username': '1', 'password': '1'},
+        {'username': 'ahmad', 'password': '123'},
+        {'username': 'fajri', 'password': '123'},
+        {'username': 'rahmat', 'password': '123'},
+        {'username': 'khairi', 'password': '123'},
+        {'username': 'yusuf', 'password': '123'},
+        {'username': 'teungku', 'password': '123'},
+      ];
+
+      // Cek apakah username dan password cocok
+      bool isValidUser = false;
+      for (var user in users) {
+        if (user['username'] == username && user['password'] == password) {
+          isValidUser = true;
+          break;
+        }
+      }
+
+      if (isValidUser) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => BottomNavPage()),
@@ -46,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             // Menambahkan gambar di atas form
             Image.asset(
-              'assets/login_image.png', // Ganti dengan path gambar Anda
+              'assets/img/login_image.jpg', // Ganti dengan path gambar Anda
               height: 150, // Atur tinggi gambar
               fit: BoxFit.cover,
             ),
@@ -79,8 +98,9 @@ class _LoginPageState extends State<LoginPage> {
                       fillColor: Colors.white,
                       border: OutlineInputBorder(),
                       suffixIcon: IconButton(
-                        icon: Icon(
-                            _isObscure ? Icons.visibility : Icons.visibility_off),
+                        icon: Icon(_isObscure
+                            ? Icons.visibility
+                            : Icons.visibility_off),
                         onPressed: () {
                           setState(() {
                             _isObscure = !_isObscure;
@@ -102,7 +122,8 @@ class _LoginPageState extends State<LoginPage> {
                     child: Text('Login'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue, // Warna tombol Login
-                      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                     ),
                   ),
                   TextButton(
@@ -135,7 +156,8 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isObscure = true;
 
@@ -178,7 +200,7 @@ class _RegisterPageState extends State<RegisterPage> {
           children: [
             // Menambahkan gambar di atas form
             Image.asset(
-              'assets/register_image.png', // Ganti dengan path gambar Anda
+              'assets/img/login_image.jpg', // Ganti dengan path gambar Anda
               height: 150, // Atur tinggi gambar
               fit: BoxFit.cover,
             ),
@@ -211,8 +233,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       fillColor: Colors.white,
                       border: OutlineInputBorder(),
                       suffixIcon: IconButton(
-                        icon: Icon(
-                            _isObscure ? Icons.visibility : Icons.visibility_off),
+                        icon: Icon(_isObscure
+                            ? Icons.visibility
+                            : Icons.visibility_off),
                         onPressed: () {
                           setState(() {
                             _isObscure = !_isObscure;
@@ -251,7 +274,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: Text('Daftar'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue, // Warna tombol Daftar
-                      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                     ),
                   ),
                   TextButton(

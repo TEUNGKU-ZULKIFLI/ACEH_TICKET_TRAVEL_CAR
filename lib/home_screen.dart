@@ -128,7 +128,8 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context) {
         return AlertDialog(
           title: Text('Konfirmasi Pembayaran'),
-          content: Text('Anda telah memilih metode pembayaran: $metode. Apakah Anda yakin ingin melanjutkan?'),
+          content: Text(
+              'Anda telah memilih metode pembayaran: $metode. Apakah Anda yakin ingin melanjutkan?'),
           actions: [
             TextButton(
               onPressed: () {
@@ -169,7 +170,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 final pembayaran = riwayatPembayaran[index];
                 return ListTile(
                   title: Text('Metode: ${pembayaran['metode']}'),
-                  subtitle: Text('Jumlah Kursi: ${pembayaran['jumlahKursi']}\nTanggal: ${pembayaran['tanggal']}'),
+                  subtitle: Text(
+                      'Jumlah Kursi: ${pembayaran['jumlahKursi']}\nTanggal: ${pembayaran['tanggal']}'),
                 );
               },
             ),
@@ -270,7 +272,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('TRAVEL MOBIL ACEH.COM'),
+        title: Text('ANDA PUAS KAMI LABA'),
         backgroundColor: Colors.blue[800],
         actions: [
           IconButton(
@@ -286,7 +288,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(1),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -319,13 +321,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 }).toList(),
               ),
             ),
-
-            SizedBox(height: 10),
-
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Dari:', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                Text('Dari:',
+                    style: TextStyle(fontSize: 12, color: Colors.grey)),
                 DropdownButton<String>(
                   value: kotaAsalTerpilih,
                   onChanged: (String? nilaiBaru) {
@@ -343,9 +343,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-
-            SizedBox(height: 10),
-
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -367,9 +364,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-
-            SizedBox(height: 10),
-
             Text('Pilih Tanggal:'),
             TextButton(
               onPressed: pilihTanggal,
@@ -380,9 +374,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: TextStyle(fontSize: 20),
               ),
             ),
-
-            SizedBox(height: 10),
-
             Text('Pilih Jumlah Kursi:'),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -410,13 +401,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-
-            SizedBox(height: 10),
-
             Center(
               child: ElevatedButton(
                 onPressed: tampilkanHasilPencarian,
-                child: Text('Cari Tiket'),
+                child: Text('Cari Tiket',
+                    style: TextStyle(fontSize: 18, color: Colors.black)),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue[800],
                   shape: RoundedRectangleBorder(
@@ -436,7 +425,8 @@ class RiwayatScreen extends StatelessWidget {
   final List<Map<String, dynamic>> riwayatPencarian;
   final List<Map<String, dynamic>> riwayatPembayaran;
 
-  RiwayatScreen({required this.riwayatPencarian, required this.riwayatPembayaran});
+  RiwayatScreen(
+      {required this.riwayatPencarian, required this.riwayatPembayaran});
 
   @override
   Widget build(BuildContext context) {
@@ -449,7 +439,8 @@ class RiwayatScreen extends StatelessWidget {
         padding: EdgeInsets.all(10),
         child: ListView(
           children: [
-            Text('Riwayat Pencarian Tiket', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text('Riwayat Pencarian Tiket',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             ...riwayatPencarian.map((pencarian) {
               return Card(
                 child: ListTile(
@@ -461,13 +452,14 @@ class RiwayatScreen extends StatelessWidget {
                 ),
               );
             }).toList(),
-            SizedBox(height: 20),
-            Text('Riwayat Pembayaran', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text('Riwayat Pembayaran',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             ...riwayatPembayaran.map((pembayaran) {
               return Card(
                 child: ListTile(
                   title: Text('Metode: ${pembayaran['metode']}'),
-                  subtitle: Text('Jumlah Kursi: ${pembayaran['jumlahKursi']}\nTanggal: ${pembayaran['tanggal']}'),
+                  subtitle: Text(
+                      'Jumlah Kursi: ${pembayaran['jumlahKursi']}\nTanggal: ${pembayaran['tanggal']}'),
                 ),
               );
             }).toList(),

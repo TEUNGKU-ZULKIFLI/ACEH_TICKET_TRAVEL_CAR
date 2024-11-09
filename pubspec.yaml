@@ -65,6 +65,7 @@ flutter:
     - assets/img/hiace_coklat.png
     - assets/img/hiace_putih.png
     - assets/img/profile_picture.ico
+    - assets/img/login_image.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

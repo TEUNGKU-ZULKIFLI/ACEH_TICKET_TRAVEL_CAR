@@ -13,7 +13,7 @@ class LoadingPage extends StatelessWidget {
     });
 
     return Scaffold(
-      backgroundColor: Colors.teal[900], // Set a cool background color
+      backgroundColor: Colors.blue[800], // Set a cool background color
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

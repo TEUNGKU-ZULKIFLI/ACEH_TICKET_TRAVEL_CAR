@@ -28,7 +28,10 @@ class _BottomNavPageState extends State<BottomNavPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('ACEH TIKET'),
+        title: Text(
+          'ACEH TIKET',
+          style: TextStyle(fontSize: 18), // Adjust the font size
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
