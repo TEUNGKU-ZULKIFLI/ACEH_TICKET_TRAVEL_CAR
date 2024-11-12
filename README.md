@@ -29,25 +29,16 @@ Sistem Pemesanan Tiket Travel Mobil adalah aplikasi mobile yang memudahkan pengg
 
 ---
 
-# **Jobdesk Tim Proyek Sistem Ticket Travel Car** 🏃🏻‍♂️‍➡️ **21 Oktober 2024** s/d 🎯 **31 Oktober 2024** 🏆
+# **Jobdesk Tim Proyek Sistem Ticket Travel Car** 🏃🏻‍♂️‍➡️ **12 NOVEMBER 2024** s/d 🎯 **26 NOVEMBER 2024** 🏆
 
 ## **Pembagian Tugas:**
 
-### 1. **Muhammad Yusuf** 
-   - **Tugas:** Membangun dan mendesain **Home Page** (home_screen.dart).
-  
-### 2. **Muhammad Rizana Fajri** 
-   - **Tugas:** Mengimplementasikan dan menguji **Login Page** (login_page.dart).
-  
-### 3. **Ahmad Maulidi** 
-   - **Tugas:** Menangani **Navigasi Page** termasuk **Menu Bawah** (bottom_nav_page.dart).
-  
-### 4. **MHD Zulkhairi** 
-   - **Tugas:** Mengembangkan halaman **Settings Page** untuk pengaturan aplikasi (settings_screen.dart).
-  
-### 5. **Rahmat Hidayat** 
-   - **Tugas:** Mengimplementasikan **Profile Page**, termasuk integrasi dengan data pengguna (profile_screen.dart).
-
+### 1. **MEMBUAT ALUR DATABASE**
+- **@TEUNGKU & @AHMAD**
+### 2. **MEMBUAT TABEL MODEL USER**
+- **@FAJRI & @RAHMAT**
+### 3. **MEMBUAT TABEL MODEL PENYEDIA TICKET**
+- **@YUSUF & @ZULKHAIRI**
 ---
 
 ### **Catatan:**
