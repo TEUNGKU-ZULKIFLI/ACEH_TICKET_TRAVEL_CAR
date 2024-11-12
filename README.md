@@ -1,6 +1,8 @@
 # **ACEH TICKET TRAVEL CAR (ATTC)**
 
-![Sistem Pemesanan Tiket Travel Mobil](https://cdn.icon-icons.com/icons2/12/PNG/256/travel_car_BMV_1741.png)
+<p align="center">
+  <img src="https://cdn.icon-icons.com/icons2/12/PNG/256/travel_car_BMV_1741.png" alt="Sistem Pemesanan Tiket Travel Mobil">
+</p>
 
 ## Deskripsi
 
