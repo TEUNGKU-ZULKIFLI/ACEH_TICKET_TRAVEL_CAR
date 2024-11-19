@@ -22,8 +22,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pengaturan'),
+        title: Text(
+          'SETTINGS 🔩',
+          style: TextStyle(
+            fontWeight: FontWeight.bold, // Menebalkan teks
+            fontSize: 20, // Ukuran font
+          ),
+        ),
         backgroundColor: Colors.blue[800],
+        centerTitle: true,
       ),
       body: ListView(
         padding: const EdgeInsets.all(16.0),

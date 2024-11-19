@@ -80,8 +80,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profil Akun'),
-        backgroundColor: Colors.indigoAccent,
+        title: Text(
+          'ACCOUNT 🙎🏻',
+          style: TextStyle(
+            fontWeight: FontWeight.bold, // Menebalkan teks
+            fontSize: 20, // Ukuran font
+          ),
+        ),
+        backgroundColor: Colors.blue[800],
+        centerTitle: true,
       ),
       body: Stack(
         children: [

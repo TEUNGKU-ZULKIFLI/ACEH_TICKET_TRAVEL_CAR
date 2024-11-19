@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'login_page.dart';
+import '/users/login_page.dart';
 
 class LoadingPage extends StatelessWidget {
   @override
@@ -31,7 +31,7 @@ class LoadingPage extends StatelessWidget {
             SizedBox(height: 20),
             // Cool Text Style
             Text(
-              'Logging out, please wait...',
+              'TINGOEH MEUTUBIET NEU SABA BACUET ...',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -52,7 +52,7 @@ class LoadingPage extends StatelessWidget {
               opacity: 0.8,
               duration: Duration(seconds: 1),
               child: Text(
-                'We are logging you out...',
+                'MEU SI DETIK KOEN NA ...',
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.white70,

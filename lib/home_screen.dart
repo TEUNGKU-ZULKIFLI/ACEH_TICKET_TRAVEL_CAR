@@ -272,8 +272,15 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('ANDA PUAS KAMI LABA'),
+        title: Text(
+          'ANDA PUAS, KAMI UNTUNG 🚗',
+          style: TextStyle(
+            fontWeight: FontWeight.bold, // Menebalkan teks
+            fontSize: 20, // Ukuran font
+          ),
+        ),
         backgroundColor: Colors.blue[800],
+        centerTitle: true,
         actions: [
           IconButton(
             icon: Icon(Icons.support_agent),

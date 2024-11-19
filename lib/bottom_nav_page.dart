@@ -29,8 +29,11 @@ class _BottomNavPageState extends State<BottomNavPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'ACEH TIKET',
-          style: TextStyle(fontSize: 18), // Adjust the font size
+          'ACEH TICKET TRAVEL 🚙',
+          style: TextStyle(
+            fontWeight: FontWeight.bold, // Menebalkan teks
+            fontSize: 20, // Ukuran font
+          ),
         ),
         actions: [
           IconButton(
