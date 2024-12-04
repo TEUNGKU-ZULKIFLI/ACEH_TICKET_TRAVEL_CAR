@@ -1,8 +1,7 @@
 import 'package:aceh_ticket_travel_car/loading_page.dart';
 import 'package:flutter/material.dart';
-import 'home_screen.dart';
-import 'profile_screen.dart';
-import 'settings_screen.dart';
+import 'screens/home_screen.dart';
+import 'screens/profile_screen.dart';
 
 class BottomNavPage extends StatefulWidget {
   @override
@@ -15,7 +14,6 @@ class _BottomNavPageState extends State<BottomNavPage> {
   static List<Widget> _pages = <Widget>[
     HomeScreen(),
     ProfileScreen(),
-    SettingsScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -59,10 +57,6 @@ class _BottomNavPageState extends State<BottomNavPage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
           ),
         ],
         currentIndex: _selectedIndex,
