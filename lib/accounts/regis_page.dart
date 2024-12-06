@@ -18,7 +18,7 @@ class _RegisPageState extends State<RegisPage> {
     try {
       final response = await http.post(
         Uri.parse(
-            'http://localhost/api_aceh_travel/users/register_user.php'), // Inoe neuboh beu sesuai menyoe neu run [2] atou [3] neu boh IP v4.
+            'http://localhost/app_aceh_travel/users/register_user.php'), // Inoe neuboh beu sesuai menyoe neu run [2] atou [3] neu boh IP v4.
         body: {
           'nama': _namaController.text,
           'email': _emailController.text,

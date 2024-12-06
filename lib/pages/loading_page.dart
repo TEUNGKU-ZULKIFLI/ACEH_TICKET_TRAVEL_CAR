@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'accounts/login_page.dart';
+import '../accounts/login_page.dart';
 
 class LoadingPage extends StatelessWidget {
   @override
@@ -31,7 +31,7 @@ class LoadingPage extends StatelessWidget {
             SizedBox(height: 20),
             // Cool Text Style
             Text(
-              'TINGOEH MEUTUBIET NEU SABA BACUET ...',
+              'NEU SABA BACUET ...',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,

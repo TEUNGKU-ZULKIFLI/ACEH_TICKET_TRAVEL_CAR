@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'regis_page.dart';
-import '/bottom_nav_page.dart';
+import '../pages/bottom_nav_page.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -17,7 +17,7 @@ class _LoginPageState extends State<LoginPage> {
     try {
       final response = await http.post(
         Uri.parse(
-            'http://localhost/api_aceh_travel/users/login_user.php'), // Inoe neuboh beu sesuai menyoe neu run [2] atou [3] neu boh IP v4.
+            'http://localhost/app_aceh_travel/users/login_user.php'), // Inoe neuboh beu sesuai menyoe neu run [2] atou [3] neu boh IP v4.
         body: {
           'email': _emailController.text,
           'password': _passwordController.text,
@@ -28,14 +28,11 @@ class _LoginPageState extends State<LoginPage> {
         final data = json.decode(response.body);
 
         if (data['success']) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(data['message']),
-            backgroundColor: Colors.green,
-          ));
-          // Redirect ke HomeScreen setelah login berhasil
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => BottomNavPage()),
+            MaterialPageRoute(
+              builder: (context) => BottomNavPage(user: data['user']),
+            ),
           );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(

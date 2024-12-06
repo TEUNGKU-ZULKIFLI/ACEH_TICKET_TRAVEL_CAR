@@ -1,4 +1,4 @@
-import '../models/details_ticket.dart';
+import '../pages/search_results_page.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -8,15 +8,15 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final List<Map<String, String>> tiket = [
+    {'gambar': 'assets/img/hiace_putih.png'},
     {'gambar': 'assets/img/hiace_modern.png'},
     {'gambar': 'assets/img/hiace_coklat.png'},
-    {'gambar': 'assets/img/hiace_putih.png'},
   ];
 
   String kotaAsalTerpilih = 'Pilih Kota Asal';
   String kotaTujuanTerpilih = 'Pilih Kota Tujuan';
   DateTime? tanggalTerpilih;
-  String waktuBerangkatTerpilih = 'Pilih Waktu Berangkat';
+  String waktuBerangkatTerpilih = 'Pilih Shift';
 
   final List<String> kota = [
     'Banda Aceh',
@@ -152,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Waktu berangkat:',
+                Text('Shift:',
                     style: TextStyle(fontSize: 12, color: Colors.grey)),
                 DropdownButton<String>(
                   value: waktuBerangkatTerpilih,
@@ -161,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       waktuBerangkatTerpilih = nilaiBaru!;
                     });
                   },
-                  items: ['Pilih Waktu Berangkat', ...waktuBerangkat]
+                  items: ['Pilih Shift', ...waktuBerangkat]
                       .map<DropdownMenuItem<String>>((String waktu) {
                     return DropdownMenuItem<String>(
                       value: waktu,
@@ -176,7 +176,16 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => DetailsTicket()),
+                  MaterialPageRoute(
+                    builder: (context) => SearchResultsPage(
+                      kotaAsal: kotaAsalTerpilih,
+                      kotaTujuan: kotaTujuanTerpilih,
+                      tanggal: tanggalTerpilih != null
+                          ? '${tanggalTerpilih!.toLocal()}'.split(' ')[0]
+                          : '',
+                      waktuBerangkat: waktuBerangkatTerpilih,
+                    ),
+                  ),
                 );
               },
               child: Text(

@@ -1,9 +1,12 @@
-import 'package:aceh_ticket_travel_car/loading_page.dart';
+import 'package:aceh_ticket_travel_car/pages/loading_page.dart';
 import 'package:flutter/material.dart';
-import 'screens/home_screen.dart';
-import 'screens/profile_screen.dart';
+import '../screens/home_screen.dart';
+import '../screens/profile_screen.dart';
 
 class BottomNavPage extends StatefulWidget {
+  final Map<String, dynamic> user;
+
+  const BottomNavPage({super.key, required this.user});
   @override
   _BottomNavPageState createState() => _BottomNavPageState();
 }
@@ -11,19 +14,19 @@ class BottomNavPage extends StatefulWidget {
 class _BottomNavPageState extends State<BottomNavPage> {
   int _selectedIndex = 0;
 
-  static List<Widget> _pages = <Widget>[
-    HomeScreen(),
-    ProfileScreen(),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final List<Widget> _pages = <Widget>[
+      HomeScreen(),
+      ProfileScreen(user: widget.user),
+    ];
+
+    void _onItemTapped(int index) {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
