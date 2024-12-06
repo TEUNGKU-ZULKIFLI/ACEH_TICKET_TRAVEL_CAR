@@ -1,8 +1,10 @@
+<div align="center">
+
 # **ACEH TICKET TRAVEL CAR (ATTC)**
 
-<p align="center">
+<div align="center">
   <img src="https://cdn.icon-icons.com/icons2/12/PNG/256/travel_car_BMV_1741.png" alt="Sistem Pemesanan Tiket Travel Mobil">
-</p>
+</div>
 
 ## Deskripsi
 
@@ -19,34 +21,35 @@ Sistem Pemesanan Tiket Travel Mobil adalah aplikasi mobile yang memudahkan pengg
 | <div align="center"> ![MHD ZULKHAIRI](https://avatars.githubusercontent.com/u/112515424?v=4) <br> **MHD ZULKHAIRI** </div> | **Pengembang Frontend** - Bertanggung jawab untuk implementasi visual aplikasi dan interaksi pengguna. |
 | <div align="center"> ![Rahmat Hidayat](https://avatars.githubusercontent.com/u/160695745?v=4) <br> **Rahmat Hidayat** </div> | **Pengembang Database** - Mengelola dan merancang struktur database yang efisien untuk aplikasi. |
 
+
 ## Fitur Utama
+</div>
 
 - **PESAN TIKET**: 
   - Pemesanan tiket secara online untuk menghindari pungli.
 
+<div align="center">
+
 ## Teknologi yang Digunakan
+</div>
 
 - **Flutter**: Framework untuk membangun aplikasi mobile.
-- **Firebase**: Backend untuk autentikasi dan database.
+- **MYSQL**: Backend untuk autentikasi dan database.
 
 ---
+<div align="center">
 
-# **Jobdesk Tim Proyek Sistem Ticket Travel Car** 🏃🏻‍♂️‍➡️ **12 NOVEMBER 2024** s/d 🎯 **26 NOVEMBER 2024** 🏆
+# **Jobdesk Tim Proyek Sistem Ticket Travel Car** 🏃🏻‍♂️‍➡️ **1 DESEMBER 2024** s/d 🎯 **11 DESEMBER 2024** 🏆
+</div>
 
-## **Pembagian Tugas:**
-
-### 1. **MEMBUAT ALUR DATABASE**
-- **@TEUNGKU & @AHMAD**
-### 2. **MEMBUAT TABEL MODEL USER**
-- **@FAJRI & @RAHMAT**
-### 3. **MEMBUAT TABEL MODEL PENYEDIA TICKET**
-- **@YUSUF & @ZULKHAIRI**
----
+## SEMUA ANGGOTA DIWAJIBKAN MEMAHAMI DARI AWAL SISTEM (BAGAIMANA SISTEM ITU BERKERJA) HINGGA TITIK PENGHABISAN
+## untuk database sudah diperbarui, monggo di unduh.
 
 ### **Catatan:**
 - Setiap anggota diharapkan menyelesaikan tugas sesuai dengan deadline yang telah ditetapkan.
 - Pastikan semua komponen diuji dengan baik sebelum digabungkan dalam proyek utama.
 - Jika ada kendala atau pertanyaan, segera koordinasikan dengan tim melalui channel komunikasi yang disepakati.
+
 
 <div align="center">
   <a href="https://drive.google.com/drive/folders/1k-DomrbnKNk5JaUYwuar0b0F4iCSlUSA">
