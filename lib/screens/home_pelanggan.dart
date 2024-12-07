@@ -1,12 +1,12 @@
 import '../pages/search_results_page.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomePelanggan extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _HomePelangganState createState() => _HomePelangganState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomePelangganState extends State<HomePelanggan> {
   final List<Map<String, String>> tiket = [
     {'gambar': 'assets/img/hiace_putih.png'},
     {'gambar': 'assets/img/hiace_modern.png'},

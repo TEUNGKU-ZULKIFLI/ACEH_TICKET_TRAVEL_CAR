@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'login_page.dart'; // Pastikan path ini benar
+import '../pages/landing_page.dart';
 
 class RegisPage extends StatefulWidget {
   @override
@@ -14,20 +14,22 @@ class _RegisPageState extends State<RegisPage> {
   final _passwordController = TextEditingController();
   final _noHpController = TextEditingController();
 
+  String _selectedRole = 'penumpang'; // Default role
+
   Future<void> _register() async {
     try {
       final response = await http.post(
-        Uri.parse(
-            'http://localhost/app_aceh_travel/users/register_user.php'), // Inoe neuboh beu sesuai menyoe neu run [2] atou [3] neu boh IP v4.
+        Uri.parse('http://localhost/app_aceh_travel/users/register_user.php'),
         body: {
           'nama': _namaController.text,
           'email': _emailController.text,
           'password': _passwordController.text,
           'no_hp': _noHpController.text,
+          'role': _selectedRole, // Kirim role ke backend
         },
       );
-      print('Response body: ${response.body}');
 
+      print('Response body: ${response.body}');
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
 
@@ -36,10 +38,9 @@ class _RegisPageState extends State<RegisPage> {
             content: Text(data['message']),
             backgroundColor: Colors.green,
           ));
-          // Redirect ke LoginPage setelah registrasi berhasil
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => LoginPage()),
+            MaterialPageRoute(builder: (context) => LandingPage()),
           );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -66,28 +67,21 @@ class _RegisPageState extends State<RegisPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'REGISTER ✍️',
-          style: TextStyle(
-            fontWeight: FontWeight.bold, // Menebalkan teks
-            fontSize: 20, // Ukuran font
-          ),
-        ),
+        title: Text('REGISTER ✍️'),
         backgroundColor: Colors.blueAccent,
-        centerTitle: true, // Menjadikan teks di tengah
+        centerTitle: true,
       ),
       body: Container(
-        color: Colors.lightBlue[50], // Warna latar belakang halaman
+        color: Colors.lightBlue[50],
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            // Menambahkan gambar di atas form
             Image.asset(
-              'assets/img/login_image.jpg', // Ganti dengan path gambar Anda
-              height: 150, // Atur tinggi gambar
+              'assets/img/login_image.jpg',
+              height: 150,
               fit: BoxFit.cover,
             ),
-            SizedBox(height: 20), // Jarak antara gambar dan form
+            SizedBox(height: 20),
             Form(
               child: Column(
                 children: [
@@ -96,7 +90,7 @@ class _RegisPageState extends State<RegisPage> {
                     decoration: InputDecoration(
                       labelText: 'Nama',
                       filled: true,
-                      fillColor: Colors.white, // Warna latar belakang TextField
+                      fillColor: Colors.white,
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -131,12 +125,32 @@ class _RegisPageState extends State<RegisPage> {
                       border: OutlineInputBorder(),
                     ),
                   ),
+                  SizedBox(height: 16),
+                  DropdownButtonFormField<String>(
+                    value: _selectedRole,
+                    items: [
+                      DropdownMenuItem(
+                          value: 'penumpang', child: Text('Penumpang')),
+                      DropdownMenuItem(value: 'sopir', child: Text('Sopir')),
+                    ],
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedRole = value!;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Role',
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
                   SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: _register,
                     child: Text('Register'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue, // Warna tombol Daftar
+                      backgroundColor: Colors.blue,
                       padding:
                           EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                     ),
@@ -145,13 +159,10 @@ class _RegisPageState extends State<RegisPage> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => LoginPage()),
+                        MaterialPageRoute(builder: (context) => LandingPage()),
                       );
                     },
-                    child: Text(
-                      'Sudah punya akun? Login',
-                      style: TextStyle(color: Colors.blue), // Warna teks
-                    ),
+                    child: Text('Sudah punya akun? Login'),
                   ),
                 ],
               ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../accounts/login_page.dart';
+import '../pages/landing_page.dart';
 
 class LoadingPage extends StatelessWidget {
   @override
@@ -8,7 +8,7 @@ class LoadingPage extends StatelessWidget {
     Future.delayed(Duration(seconds: 2), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => LoginPage()),
+        MaterialPageRoute(builder: (context) => LandingPage()),
       );
     });
 

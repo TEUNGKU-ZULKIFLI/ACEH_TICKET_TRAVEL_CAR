@@ -1,23 +1,21 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'regis_page.dart';
-import '../pages/bottom_nav_page.dart';
+import '../pages/bottom_nav_pelanggan_page.dart'; // Ganti dengan halaman yang sesuai untuk penumpang
 
-class LoginPage extends StatefulWidget {
+class LoginPenumpang extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _LoginPenumpangState createState() => _LoginPenumpangState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPenumpangState extends State<LoginPenumpang> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
   Future<void> _login() async {
     try {
       final response = await http.post(
-        Uri.parse(
-            'http://localhost/app_aceh_travel/users/login_user.php'), // Inoe neuboh beu sesuai menyoe neu run [2] atou [3] neu boh IP v4.
+        Uri.parse('http://localhost/app_aceh_travel/users/login_user.php'),
         body: {
           'email': _emailController.text,
           'password': _passwordController.text,
@@ -28,12 +26,22 @@ class _LoginPageState extends State<LoginPage> {
         final data = json.decode(response.body);
 
         if (data['success']) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => BottomNavPage(user: data['user']),
-            ),
-          );
+          String role = data['user']['role']; // Mendapatkan role dari respons
+
+          if (role == 'penumpang') {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BottomNavPelanggan(user: data['user']),
+              ),
+            );
+          } else {
+            // Jika role bukan penumpang, beri pesan error
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('Login gagal. Anda bukan penumpang.'),
+              backgroundColor: Colors.red,
+            ));
+          }
         } else {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(data['message']),
@@ -47,7 +55,6 @@ class _LoginPageState extends State<LoginPage> {
         ));
       }
     } catch (e) {
-      print('Error: $e');
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Error: $e'),
         backgroundColor: Colors.red,
@@ -60,27 +67,20 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'LOGIN 🔑',
-          style: TextStyle(
-            fontWeight: FontWeight.bold, // Menebalkan teks
-            fontSize: 20, // Ukuran font
-          ),
+          'LOGIN 🔑 PENUMPANG',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
         ),
         backgroundColor: Colors.blueAccent,
-        centerTitle: true, // Menjadikan teks di tengah
+        centerTitle: true,
       ),
       body: Container(
-        color: Colors.lightBlue[50], // Warna latar belakang halaman
+        color: Colors.lightBlue[50],
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            // Menambahkan gambar di atas form
-            Image.asset(
-              'assets/img/login_image.jpg', // Ganti dengan path gambar Anda
-              height: 150, // Atur tinggi gambar
-              fit: BoxFit.cover,
-            ),
-            SizedBox(height: 20), // Jarak antara gambar dan form
+            Image.asset('assets/img/login_image.jpg',
+                height: 150, fit: BoxFit.cover),
+            SizedBox(height: 20),
             TextFormField(
               controller: _emailController,
               decoration: InputDecoration(
@@ -109,16 +109,6 @@ class _LoginPageState extends State<LoginPage> {
                 backgroundColor: Colors.blue,
                 padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
               ),
-            ),
-            SizedBox(height: 20),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => RegisPage()),
-                );
-              },
-              child: Text('Belum punya akun? Daftar disini'),
             ),
           ],
         ),

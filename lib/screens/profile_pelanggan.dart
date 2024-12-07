@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class ProfileScreen extends StatefulWidget {
+class ProfilePelanggan extends StatefulWidget {
   final Map<String, dynamic> user;
 
-  const ProfileScreen({Key? key, required this.user}) : super(key: key);
+  const ProfilePelanggan({Key? key, required this.user}) : super(key: key);
 
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  _ProfilePelangganState createState() => _ProfilePelangganState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfilePelangganState extends State<ProfilePelanggan> {
   List<Map<String, dynamic>> tickets = [];
   bool isLoading = true;
 
@@ -49,7 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'PROFILE ${widget.user['nama']}',
+          'PELANGGAN ${widget.user['nama']}',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20,
