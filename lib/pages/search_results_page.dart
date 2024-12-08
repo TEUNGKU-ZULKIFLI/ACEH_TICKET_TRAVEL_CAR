@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../pages/ticket_detail_page.dart';
 
 class SearchResultsPage extends StatelessWidget {
   final String kotaAsal;
@@ -78,28 +79,10 @@ class SearchResultsPage extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
                 onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: const Text('Detail Tiket'),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text('Kota Asal: ${ticket['kota_asal']}'),
-                          Text('Kota Tujuan: ${ticket['kota_tujuan']}'),
-                          Text('Tanggal: ${ticket['tanggal']}'),
-                          Text('Waktu Berangkat: ${ticket['waktu_berangkat']}'),
-                          Text('Harga: Rp ${ticket['harga']}'),
-                        ],
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text('Tutup'),
-                        ),
-                      ],
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TicketDetailPage(ticket: ticket),
                     ),
                   );
                 },
