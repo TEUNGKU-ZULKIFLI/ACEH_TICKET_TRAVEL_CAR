@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import '../pages/payment_page.dart'; // Import PaymentPage
 
 class SeatSelectionPage extends StatefulWidget {
@@ -6,16 +8,79 @@ class SeatSelectionPage extends StatefulWidget {
 
   const SeatSelectionPage({super.key, required this.ticketId});
 
+  Future<void> saveTransaction(
+      BuildContext context, int userId, int ticketId, int seatNumber) async {
+    final url = Uri.parse(
+        'http://localhost/app_aceh_travel/tickets/create_transaction.php');
+    final response = await http.post(
+      url,
+      body: {
+        'user_id': userId.toString(),
+        'ticket_id': ticketId.toString(),
+        'seat_number': seatNumber.toString(),
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final result = json.decode(response.body);
+      if (result['status'] == 'success') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Transaksi berhasil disimpan')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Gagal menyimpan transaksi')),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Gagal terhubung ke server')),
+      );
+    }
+  }
+
   @override
   State<SeatSelectionPage> createState() => _SeatSelectionPageState();
 }
 
 class _SeatSelectionPageState extends State<SeatSelectionPage> {
-  int? selectedSeat; // Menyimpan kursi yang dipilih
-  List<int> availableSeats =
-      List.generate(15, (index) => index + 1); // Daftar kursi dari 1-15
+  int? selectedSeat;
+  List<int> availableSeats = List.generate(15, (index) => index + 1);
+  int userId = 1; // Misalnya, userId diambil dari sesi pengguna yang login
 
-  // Fungsi untuk menangani pemilihan kursi
+  // Fungsi untuk menyimpan transaksi
+  Future<void> saveTransaction(int ticketId, int seatNumber) async {
+    final url = Uri.parse(
+        'http://localhost/app_aceh_travel/tickets/create_transaction.php');
+    try {
+      final response = await http.post(
+        url,
+        body: {
+          'user_id': userId.toString(),
+          'ticket_id': ticketId.toString(),
+          'seat_number': seatNumber.toString(),
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final result = json.decode(response.body);
+        if (result['status'] == 'success') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Transaksi berhasil disimpan')),
+          );
+        } else {
+          throw Exception('Gagal menyimpan transaksi');
+        }
+      } else {
+        throw Exception('Gagal terhubung ke server');
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
+    }
+  }
+
   void selectSeat(int seatNumber) {
     setState(() {
       selectedSeat = seatNumber;
@@ -35,7 +100,6 @@ class _SeatSelectionPageState extends State<SeatSelectionPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Tampilkan gambar posisi kursi di samping
             Row(
               children: [
                 Image.asset(
@@ -97,9 +161,10 @@ class _SeatSelectionPageState extends State<SeatSelectionPage> {
             SizedBox(height: 20),
             Center(
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (selectedSeat != null) {
-                    // Setelah memilih kursi, navigasi ke halaman pembayaran
+                    await widget.saveTransaction(
+                        context, userId, widget.ticketId, selectedSeat!);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
