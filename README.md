@@ -50,6 +50,11 @@ Sistem Pemesanan Tiket Travel Mobil adalah aplikasi mobile yang memudahkan pengg
 - Pastikan semua komponen diuji dengan baik sebelum digabungkan dalam proyek utama.
 - Jika ada kendala atau pertanyaan, segera koordinasikan dengan tim melalui channel komunikasi yang disepakati.
 
+# ⚠️UNTUK USER YANG MENJALANKANNYA DI NO [2] atau CHROME JALANKAN DENGAN PERINTAH BERIKUT :⚠️
+```bash
+flutter run -d chrome --web-browser-flag "--disable-web-security"
+```
+
 
 <div align="center">
   <a href="https://drive.google.com/drive/folders/1k-DomrbnKNk5JaUYwuar0b0F4iCSlUSA">
