@@ -45,31 +45,29 @@ class SeatSelectionPage extends StatefulWidget {
 
 class _SeatSelectionPageState extends State<SeatSelectionPage> {
   int? selectedSeat;
-  List<int> availableSeats = List.generate(15, (index) => index + 1);
-  int userId = 1; // Misalnya, userId diambil dari sesi pengguna yang login
+  List<int> availableSeats = [];
+  int userId = 1; // ID pengguna
+  bool isLoading = true;
 
-  // Fungsi untuk menyimpan transaksi
-  Future<void> saveTransaction(int ticketId, int seatNumber) async {
+  // Fungsi untuk mengambil kursi yang tersedia dari server
+  Future<void> fetchAvailableSeats() async {
     final url = Uri.parse(
-        'http://localhost/app_aceh_travel/tickets/create_transaction.php');
+        'http://localhost/app_aceh_travel/tickets/get_available_seats.php');
     try {
       final response = await http.post(
         url,
-        body: {
-          'user_id': userId.toString(),
-          'ticket_id': ticketId.toString(),
-          'seat_number': seatNumber.toString(),
-        },
+        body: {'ticket_id': widget.ticketId.toString()},
       );
 
       if (response.statusCode == 200) {
         final result = json.decode(response.body);
-        if (result['status'] == 'success') {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Transaksi berhasil disimpan')),
-          );
+        if (result['success']) {
+          setState(() {
+            availableSeats = List<int>.from(result['available_seats']);
+            isLoading = false;
+          });
         } else {
-          throw Exception('Gagal menyimpan transaksi');
+          throw Exception(result['message']);
         }
       } else {
         throw Exception('Gagal terhubung ke server');
@@ -79,6 +77,13 @@ class _SeatSelectionPageState extends State<SeatSelectionPage> {
         SnackBar(content: Text(e.toString())),
       );
     }
+  }
+
+  // Panggil fetchAvailableSeats saat inisialisasi
+  @override
+  void initState() {
+    super.initState();
+    fetchAvailableSeats();
   }
 
   void selectSeat(int seatNumber) {
@@ -95,96 +100,100 @@ class _SeatSelectionPageState extends State<SeatSelectionPage> {
         backgroundColor: Colors.blue[800],
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Image.asset(
-                  'assets/img/POSISI_KURSI.jpg',
-                  height: 200,
-                  width: 200,
-                ),
-                SizedBox(width: 20),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
                     children: [
-                      Text(
-                        'Pilih Kursi (Max 15 kursi)',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                      Image.asset(
+                        'assets/img/POSISI_KURSI.jpg',
+                        height: 200,
+                        width: 200,
                       ),
-                      GridView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 5,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                        ),
-                        itemCount: availableSeats.length,
-                        itemBuilder: (context, index) {
-                          final seatNumber = availableSeats[index];
-                          return GestureDetector(
-                            onTap: () => selectSeat(seatNumber),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: selectedSeat == seatNumber
-                                    ? Colors.blue[800]
-                                    : Colors.grey[300],
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  seatNumber.toString(),
-                                  style: TextStyle(
-                                    color: selectedSeat == seatNumber
-                                        ? Colors.white
-                                        : Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
+                      SizedBox(width: 20),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Pilih Kursi',
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
                             ),
-                          );
-                        },
+                            GridView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 5,
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 10,
+                              ),
+                              itemCount: availableSeats.length,
+                              itemBuilder: (context, index) {
+                                final seatNumber = availableSeats[index];
+                                return GestureDetector(
+                                  onTap: () => selectSeat(seatNumber),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: selectedSeat == seatNumber
+                                          ? Colors.blue[800]
+                                          : Colors.grey[300],
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        seatNumber.toString(),
+                                        style: TextStyle(
+                                          color: selectedSeat == seatNumber
+                                              ? Colors.white
+                                              : Colors.black,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: 20),
-            Center(
-              child: ElevatedButton(
-                onPressed: () async {
-                  if (selectedSeat != null) {
-                    await widget.saveTransaction(
-                        context, userId, widget.ticketId, selectedSeat!);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            PaymentPage(ticketId: widget.ticketId),
-                      ),
-                    );
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                          content: Text('Silakan pilih kursi terlebih dahulu')),
-                    );
-                  }
-                },
-                child: Text('Pesan Kursi'),
+                  SizedBox(height: 20),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        if (selectedSeat != null) {
+                          await widget.saveTransaction(
+                              context, userId, widget.ticketId, selectedSeat!);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  PaymentPage(ticketId: widget.ticketId),
+                            ),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text(
+                                    'Silakan pilih kursi terlebih dahulu')),
+                          );
+                        }
+                      },
+                      child: Text('Pesan Kursi'),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
     );
   }
 }
