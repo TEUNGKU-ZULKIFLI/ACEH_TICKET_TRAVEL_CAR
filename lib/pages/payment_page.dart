@@ -24,7 +24,7 @@ class PaymentPage extends StatelessWidget {
                 children: [
                   // Menampilkan gambar QR Code yang ada di assets
                   Image.asset(
-                    'assets/img/profile_picture.ico', // Gambar QR Code di folder assets
+                    'assets/img/qrcode_github.com.png', // Gambar QR Code di folder assets
                     height: 200,
                     width: 200,
                   ),

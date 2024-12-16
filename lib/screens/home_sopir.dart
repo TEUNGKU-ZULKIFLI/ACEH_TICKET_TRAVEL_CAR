@@ -10,8 +10,10 @@ class HomeSopir extends StatefulWidget {
 }
 
 class _HomeSopirState extends State<HomeSopir> {
-  final _kotaAsalController = TextEditingController();
-  final _kotaTujuanController = TextEditingController();
+  String? _kotaAsalController;
+
+  String? _kotaTujuanController;
+
   final _tanggalController = TextEditingController();
   final _hargaController = TextEditingController();
   final _jumlahKursiController =
@@ -19,10 +21,24 @@ class _HomeSopirState extends State<HomeSopir> {
 
   String? _selectedWaktuBerangkat;
   final List<String> _waktuBerangkatOptions = ['PAGI', 'SIANG', 'MALAM'];
+  final List<String> _kotaAsalOptions = [
+    'Banda Aceh',
+    'Sigli',
+    'Bireuen',
+    'Lhokseumawe',
+    'Medan'
+  ];
+  final List<String> _kotaTujuanOptions = [
+    'Banda Aceh',
+    'Sigli',
+    'Bireuen',
+    'Lhokseumawe',
+    'Medan'
+  ];
 
   Future<void> _createTicket() async {
-    if (_kotaAsalController.text.isEmpty ||
-        _kotaTujuanController.text.isEmpty ||
+    if (_kotaAsalController == null ||
+        _kotaTujuanController == null ||
         _tanggalController.text.isEmpty ||
         _selectedWaktuBerangkat == null ||
         _hargaController.text.isEmpty ||
@@ -41,8 +57,8 @@ class _HomeSopirState extends State<HomeSopir> {
       final response = await http.post(
         Uri.parse('http://localhost/app_aceh_travel/tickets/create_ticket.php'),
         body: {
-          'kota_asal': _kotaAsalController.text,
-          'kota_tujuan': _kotaTujuanController.text,
+          'kota_asal': _kotaAsalController ?? '',
+          'kota_tujuan': _kotaTujuanController ?? '',
           'tanggal': _tanggalController.text,
           'waktu_berangkat': _selectedWaktuBerangkat ?? '',
           'harga': _hargaController.text,
@@ -106,24 +122,48 @@ class _HomeSopirState extends State<HomeSopir> {
                 fit: BoxFit.cover,
               ),
               const SizedBox(height: 20),
-              TextFormField(
-                controller: _kotaAsalController,
+              DropdownButtonFormField<String>(
+                value: _kotaAsalController,
                 decoration: const InputDecoration(
-                  labelText: 'Kota Asal',
+                  labelText: 'Dari Kota',
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(),
                 ),
+                items: _kotaAsalOptions
+                    .map((String waktu) => DropdownMenuItem<String>(
+                          value: waktu,
+                          child: Text(waktu),
+                        ))
+                    .toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _kotaAsalController = newValue;
+                  });
+                },
+                hint: const Text('Dari Kota'),
               ),
               const SizedBox(height: 16),
-              TextFormField(
-                controller: _kotaTujuanController,
+              DropdownButtonFormField<String>(
+                value: _kotaTujuanController,
                 decoration: const InputDecoration(
-                  labelText: 'Kota Tujuan',
+                  labelText: 'Ke Kota',
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(),
                 ),
+                items: _kotaTujuanOptions
+                    .map((String waktu) => DropdownMenuItem<String>(
+                          value: waktu,
+                          child: Text(waktu),
+                        ))
+                    .toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _kotaTujuanController = newValue;
+                  });
+                },
+                hint: const Text('Ke Kota'),
               ),
               const SizedBox(height: 16),
               TextFormField(
