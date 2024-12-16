@@ -30,10 +30,11 @@ class _BottomNavSopirState extends State<BottomNavSopir> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'ACEH TICKET TRAVEL 🚙',
+          'ACEH TICKET TRAVEL CAR 🚙',
           style: TextStyle(
             fontWeight: FontWeight.bold, // Menebalkan teks
             fontSize: 20, // Ukuran font
+            color: Colors.white, // Warna teks
           ),
         ),
         actions: [

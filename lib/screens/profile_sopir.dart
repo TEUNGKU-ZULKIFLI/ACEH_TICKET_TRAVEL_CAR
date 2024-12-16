@@ -53,40 +53,114 @@ class _ProfileSopirState extends State<ProfileSopir> {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20,
+            color: Colors.white,
           ),
         ),
-        backgroundColor: Colors.blue[800],
+        backgroundColor: Color(0xFF6B21A8),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Nama: ${widget.user['nama']}',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF6B21A8), Color(0xFFF472B6)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CircleAvatar(
+                  radius: 60,
+                  backgroundColor: Colors.white,
+                  child: Icon(Icons.person, size: 80, color: Color(0xFF6B21A8)),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Nama: ${widget.user['nama']}',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'Email: ${widget.user['email']}',
+                  style: TextStyle(fontSize: 16, color: Colors.white),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'No HP: ${widget.user['no_hp']}',
+                  style: TextStyle(fontSize: 16, color: Colors.white),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'STATUS: ${widget.user['role']}',
+                  style: TextStyle(fontSize: 16, color: Colors.white),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'Bergabung: ${widget.user['created_at']}',
+                  style: TextStyle(fontSize: 16, color: Colors.white),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Tiket Sopir',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                isLoading
+                    ? CircularProgressIndicator()
+                    : tickets.isEmpty
+                        ? Text(
+                            'Belum ada tiket',
+                            style: TextStyle(color: Colors.white),
+                          )
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: tickets.length,
+                            itemBuilder: (context, index) {
+                              final ticket = tickets[index];
+                              return Card(
+                                color: Colors.white.withOpacity(0.7),
+                                margin: const EdgeInsets.symmetric(
+                                    vertical: 8.0, horizontal: 16.0),
+                                child: ListTile(
+                                  title: Text(
+                                    '${ticket['kota_asal']} ke ${ticket['kota_tujuan']}',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFF6B21A8),
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    'Tanggal: ${ticket['tanggal']}\n'
+                                    'Waktu: ${ticket['waktu_berangkat']}\n'
+                                    'Kursi: ${ticket['seat_number']}',
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                  trailing: Text(
+                                    'Rp ${ticket['harga']}',
+                                    style: TextStyle(
+                                        color: Colors.green,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+              ],
             ),
-            SizedBox(height: 8),
-            Text(
-              'Email: ${widget.user['email']}',
-              style: TextStyle(fontSize: 16),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'No HP: ${widget.user['no_hp']}',
-              style: TextStyle(fontSize: 16),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'STATUS : ${widget.user['role']}',
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Bergabung: ${widget.user['created_at']}',
-              style: TextStyle(fontSize: 16),
-            ),
-          ],
+          ),
         ),
       ),
     );

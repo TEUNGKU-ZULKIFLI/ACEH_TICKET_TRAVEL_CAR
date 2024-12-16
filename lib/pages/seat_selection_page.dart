@@ -96,79 +96,111 @@ class _SeatSelectionPageState extends State<SeatSelectionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pilih Kursi'),
-        backgroundColor: Colors.blue[800],
+        title: const Text('PILIH KURSI 💺',
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                color: Colors.white)),
+        backgroundColor: Color(0xFF6B21A8), // Warna ungu tua
         centerTitle: true,
       ),
-      body: isLoading
-          ? Center(child: CircularProgressIndicator())
-          : Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Image.asset(
-                        'assets/img/POSISI_KURSI.jpg',
-                        height: 200,
-                        width: 200,
-                      ),
-                      SizedBox(width: 20),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Pilih Kursi',
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF6B21A8), Color(0xFFF472B6)], // Gradasi ungu-pink
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: isLoading
+            ? Center(child: CircularProgressIndicator())
+            : Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15.0),
+                            child: Image.asset(
+                              'assets/img/POSISI_KURSI.jpg',
+                              fit: BoxFit.contain,
                             ),
-                            GridView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 5,
-                                crossAxisSpacing: 10,
-                                mainAxisSpacing: 10,
+                          ),
+                        ),
+                        SizedBox(width: 20),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Pilih Kursi 💺',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
                               ),
-                              itemCount: availableSeats.length,
-                              itemBuilder: (context, index) {
-                                final seatNumber = availableSeats[index];
-                                return GestureDetector(
-                                  onTap: () => selectSeat(seatNumber),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: selectedSeat == seatNumber
-                                          ? Colors.blue[800]
-                                          : Colors.grey[300],
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        seatNumber.toString(),
-                                        style: TextStyle(
-                                          color: selectedSeat == seatNumber
-                                              ? Colors.white
-                                              : Colors.black,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
+                              SizedBox(height: 16),
+                              GridView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 5,
+                                  crossAxisSpacing: 8,
+                                  mainAxisSpacing: 8,
+                                ),
+                                itemCount: availableSeats.length,
+                                itemBuilder: (context, index) {
+                                  final seatNumber = availableSeats[index];
+                                  return GestureDetector(
+                                    onTap: () => selectSeat(seatNumber),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: selectedSeat == seatNumber
+                                            ? Color(
+                                                0xFF6B21A8) // Ungu tua untuk kursi terpilih
+                                            : Colors.white,
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(
+                                          color:
+                                              Color(0xFF6B21A8), // Garis ungu
+                                          width: 2,
+                                        ),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          seatNumber.toString(),
+                                          style: TextStyle(
+                                            color: selectedSeat == seatNumber
+                                                ? Colors.white
+                                                : Colors.black,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: Color(0xFFF472B6),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Center(
-                    child: ElevatedButton(
                       onPressed: () async {
                         if (selectedSeat != null) {
                           await widget.saveTransaction(
@@ -188,12 +220,15 @@ class _SeatSelectionPageState extends State<SeatSelectionPage> {
                           );
                         }
                       },
-                      child: Text('Pesan Kursi'),
+                      child: Text(
+                        'Pesan Kursi',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
+      ),
     );
   }
 }

@@ -11,8 +11,22 @@ class LoginPenumpang extends StatefulWidget {
 class _LoginPenumpangState extends State<LoginPenumpang> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool _isLoading = false; // Variable to track the loading state
 
+  // Validating the form
   Future<void> _login() async {
+    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Email dan Password tidak boleh kosong!'),
+        backgroundColor: Colors.red,
+      ));
+      return;
+    }
+
+    setState(() {
+      _isLoading = true; // Start loading
+    });
+
     try {
       final response = await http.post(
         Uri.parse('http://localhost/app_aceh_travel/users/login_user.php'),
@@ -36,7 +50,6 @@ class _LoginPenumpangState extends State<LoginPenumpang> {
               ),
             );
           } else {
-            // Jika role bukan penumpang, beri pesan error
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text('Login gagal. Anda bukan penumpang.'),
               backgroundColor: Colors.red,
@@ -59,6 +72,10 @@ class _LoginPenumpangState extends State<LoginPenumpang> {
         content: Text('Error: $e'),
         backgroundColor: Colors.red,
       ));
+    } finally {
+      setState(() {
+        _isLoading = false; // Stop loading
+      });
     }
   }
 
@@ -102,14 +119,17 @@ class _LoginPenumpangState extends State<LoginPenumpang> {
               ),
             ),
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _login,
-              child: Text('Login'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-              ),
-            ),
+            _isLoading
+                ? CircularProgressIndicator() // Show a loading spinner
+                : ElevatedButton(
+                    onPressed: _login,
+                    child: Text('Login'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                    ),
+                  ),
           ],
         ),
       ),

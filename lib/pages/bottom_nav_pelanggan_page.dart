@@ -30,10 +30,11 @@ class _BottomNavPelangganState extends State<BottomNavPelanggan> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'ACEH TICKET TRAVEL 🚙',
+          'ACEH TICKET TRAVEL CAR 🚙',
           style: TextStyle(
             fontWeight: FontWeight.bold, // Menebalkan teks
-            fontSize: 20, // Ukuran font
+            fontSize: 20,
+            color: Colors.white, // Ukuran font
           ),
         ),
         actions: [

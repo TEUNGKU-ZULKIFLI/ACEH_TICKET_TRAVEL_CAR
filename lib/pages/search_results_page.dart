@@ -42,54 +42,95 @@ class SearchResultsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text('HASIL PENCARIAN 💾'),
-          titleTextStyle: TextStyle(
+        title: Text(
+          'HASIL PENCARIAN 💾',
+          style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20,
+            color: Colors.white,
           ),
-          centerTitle: true,
-          backgroundColor: Colors.blue[800]),
-      body: FutureBuilder<List<Map<String, dynamic>>>(
-        future: fetchTickets(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('Tidak ada tiket ditemukan'));
-          }
-
-          final tickets = snapshot.data!;
-          return ListView.builder(
-            itemCount: tickets.length,
-            itemBuilder: (context, index) {
-              final ticket = tickets[index];
-              return ListTile(
-                title: Text(
-                  '${ticket['kota_asal']} -> ${ticket['kota_tujuan']}',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        ),
+        backgroundColor: Color(0xFF6B21A8),
+        centerTitle: true,
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF6B21A8), Color(0xFFF472B6)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: FutureBuilder<List<Map<String, dynamic>>>(
+          future: fetchTickets(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text(
+                  'Error: ${snapshot.error}',
+                  style: TextStyle(color: Colors.white, fontSize: 18),
                 ),
-                subtitle: Text(
-                  '${ticket['tanggal']} | ${ticket['waktu_berangkat']}',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                ),
-                trailing: Text(
-                  'Rp ${ticket['harga']}',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => TicketDetailPage(ticket: ticket),
-                    ),
-                  );
-                },
               );
-            },
-          );
-        },
+            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return Center(
+                child: Text(
+                  'Tidak ada tiket ditemukan',
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                ),
+              );
+            }
+
+            final tickets = snapshot.data!;
+            return ListView.builder(
+              padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
+              itemCount: tickets.length,
+              itemBuilder: (context, index) {
+                final ticket = tickets[index];
+                return Card(
+                  margin: const EdgeInsets.symmetric(vertical: 8.0),
+                  color: Colors.white.withOpacity(0.8),
+                  child: ListTile(
+                    title: Text(
+                      '${ticket['kota_asal']} -> ${ticket['kota_tujuan']}',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Color(0xFF6B21A8),
+                      ),
+                    ),
+                    subtitle: Text(
+                      '${ticket['tanggal']} | ${ticket['waktu_berangkat']}',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                    ),
+                    trailing: Text(
+                      'Rp ${ticket['harga']}',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.green,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              TicketDetailPage(ticket: ticket),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }

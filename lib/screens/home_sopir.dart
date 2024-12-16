@@ -11,14 +11,10 @@ class HomeSopir extends StatefulWidget {
 
 class _HomeSopirState extends State<HomeSopir> {
   String? _kotaAsalController;
-
   String? _kotaTujuanController;
-
   final _tanggalController = TextEditingController();
   final _hargaController = TextEditingController();
-  final _jumlahKursiController =
-      TextEditingController(); // Controller untuk jumlah kursi
-
+  final _jumlahKursiController = TextEditingController();
   String? _selectedWaktuBerangkat;
   final List<String> _waktuBerangkatOptions = ['PAGI', 'SIANG', 'MALAM'];
   final List<String> _kotaAsalOptions = [
@@ -43,7 +39,6 @@ class _HomeSopirState extends State<HomeSopir> {
         _selectedWaktuBerangkat == null ||
         _hargaController.text.isEmpty ||
         _jumlahKursiController.text.isEmpty) {
-      // Cek apakah jumlah kursi terisi
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Semua field harus diisi!'),
@@ -62,8 +57,7 @@ class _HomeSopirState extends State<HomeSopir> {
           'tanggal': _tanggalController.text,
           'waktu_berangkat': _selectedWaktuBerangkat ?? '',
           'harga': _hargaController.text,
-          'jumlah_kursi':
-              _jumlahKursiController.text, // Mengirimkan jumlah kursi
+          'jumlah_kursi': _jumlahKursiController.text,
         },
       );
 
@@ -106,66 +100,89 @@ class _HomeSopirState extends State<HomeSopir> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Buat Tiket Baru 🚗'),
-        backgroundColor: Colors.blueAccent,
+        title: const Text(
+          'BUAT TIKET BARU 🚗',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+            color: Colors.white, // Mengubah warna font menjadi putih
+          ),
+        ),
+        backgroundColor: Color(0xFF6B21A8),
         centerTitle: true,
       ),
       body: Container(
-        color: Colors.lightBlue[50],
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF6B21A8), Color(0xFFF472B6)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
             children: [
               Image.asset(
-                'assets/img/login_image.jpg', // Ganti sesuai path gambar
+                'assets/img/login_image.jpg',
                 height: 150,
                 fit: BoxFit.cover,
               ),
               const SizedBox(height: 20),
-              DropdownButtonFormField<String>(
-                value: _kotaAsalController,
-                decoration: const InputDecoration(
-                  labelText: 'Dari Kota',
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(),
-                ),
-                items: _kotaAsalOptions
-                    .map((String waktu) => DropdownMenuItem<String>(
-                          value: waktu,
-                          child: Text(waktu),
-                        ))
-                    .toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _kotaAsalController = newValue;
-                  });
-                },
-                hint: const Text('Dari Kota'),
+              // Row untuk dropdown dan tombol
+              Row(
+                children: [
+                  // Gesture untuk memilih Kota Asal
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        _showKotaDialog('Dari');
+                      },
+                      child: InputDecorator(
+                        decoration: const InputDecoration(
+                          labelText: 'Dari Kota',
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(),
+                        ),
+                        child: Text(
+                          _kotaAsalController ?? 'Pilih Kota',
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight:
+                                  FontWeight.bold), // Menyesuaikan warna font
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  // Gesture untuk memilih Kota Tujuan
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        _showKotaDialog('Ke');
+                      },
+                      child: InputDecorator(
+                        decoration: const InputDecoration(
+                          labelText: 'Ke Kota',
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(),
+                        ),
+                        child: Text(
+                          _kotaTujuanController ?? 'Pilih Kota',
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight:
+                                  FontWeight.bold), // Menyesuaikan warna font
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 16),
-              DropdownButtonFormField<String>(
-                value: _kotaTujuanController,
-                decoration: const InputDecoration(
-                  labelText: 'Ke Kota',
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(),
-                ),
-                items: _kotaTujuanOptions
-                    .map((String waktu) => DropdownMenuItem<String>(
-                          value: waktu,
-                          child: Text(waktu),
-                        ))
-                    .toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _kotaTujuanController = newValue;
-                  });
-                },
-                hint: const Text('Ke Kota'),
-              ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
+              // Input Tanggal
               TextFormField(
                 controller: _tanggalController,
                 readOnly: true,
@@ -180,7 +197,7 @@ class _HomeSopirState extends State<HomeSopir> {
                     context: context,
                     initialDate: DateTime.now(),
                     firstDate: DateTime.now(),
-                    lastDate: DateTime(2100), // Memperbaiki batas akhir tahun
+                    lastDate: DateTime(2100),
                   );
                   if (pickedDate != null) {
                     _tanggalController.text =
@@ -188,64 +205,165 @@ class _HomeSopirState extends State<HomeSopir> {
                   }
                 },
               ),
-              const SizedBox(height: 16),
-              DropdownButtonFormField<String>(
-                value: _selectedWaktuBerangkat,
-                decoration: const InputDecoration(
-                  labelText: 'Shift',
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(),
-                ),
-                items: _waktuBerangkatOptions
-                    .map((String waktu) => DropdownMenuItem<String>(
-                          value: waktu,
-                          child: Text(waktu),
-                        ))
-                    .toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedWaktuBerangkat = newValue;
-                  });
+              const SizedBox(height: 20),
+              // Gesture untuk memilih Shift
+              GestureDetector(
+                onTap: () {
+                  _showShiftDialog();
                 },
-                hint: const Text('Pilih Shift'),
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _hargaController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  labelText: 'Harga (Rp)',
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _jumlahKursiController, // Input jumlah kursi
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  labelText: 'Jumlah Kursi',
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(),
+                child: InputDecorator(
+                  decoration: const InputDecoration(
+                    labelText: 'Shift',
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(),
+                  ),
+                  child: Text(
+                    _selectedWaktuBerangkat ?? 'Pilih Shift',
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold), // Menyesuaikan warna font
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
+              // Row untuk Harga dan Jumlah Kursi
+              Row(
+                children: [
+                  // Input Harga
+                  Expanded(
+                    child: TextFormField(
+                      controller: _hargaController,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                        labelText: 'Harga (Rp)',
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  // Input Jumlah Kursi
+                  Expanded(
+                    child: TextFormField(
+                      controller: _jumlahKursiController,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                        labelText: 'Jumlah Kursi',
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 25),
+              // Tombol untuk submit
               ElevatedButton(
                 onPressed: _createTicket,
-                child: const Text('Buat Tiket'),
+                child: const Text(
+                  'Buat Tiket',
+                  style: TextStyle(
+                      color: Colors.white), // Tombol dengan teks putih
+                ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
+                  backgroundColor: Color(0xFFF472B6),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                  textStyle: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
                 ),
               ),
+              const SizedBox(height: 16),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  // Dialog untuk memilih Kota
+  void _showKotaDialog(String jenis) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            'Pilih Kota $jenis',
+            style: const TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold), // Menyesuaikan warna font
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children:
+                  (jenis == 'Dari' ? _kotaAsalOptions : _kotaTujuanOptions)
+                      .map((kota) {
+                return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      if (jenis == 'Dari') {
+                        _kotaAsalController = kota;
+                      } else {
+                        _kotaTujuanController = kota;
+                      }
+                    });
+                    Navigator.of(context).pop();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(kota,
+                        style: const TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold)),
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  // Dialog untuk memilih Shift
+  void _showShiftDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text(
+            'Pilih Shift',
+            style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold), // Menyesuaikan warna font
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: _waktuBerangkatOptions.map((waktu) {
+                return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _selectedWaktuBerangkat = waktu;
+                    });
+                    Navigator.of(context).pop();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(waktu,
+                        style: const TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold)),
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+        );
+      },
     );
   }
 }

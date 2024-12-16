@@ -63,3 +63,59 @@ flutter run -d chrome --web-browser-flag "--disable-web-security"
     </button>
   </a>
 </div>
+
+## UNTUK SEPUH CODE SQL DATABASE RECOMENDED MENJALANKAN INI SAJA
+```CODINGAN
+-- Menghapus database jika sudah ada
+DROP DATABASE IF EXISTS aceh_travel;
+
+-- Membuat database baru
+CREATE DATABASE aceh_travel;
+
+-- Menggunakan database aceh_travel
+USE aceh_travel;
+
+-- Membuat tabel 'tickets'
+CREATE TABLE tickets (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  kota_asal VARCHAR(100) NOT NULL,
+  kota_tujuan VARCHAR(100) NOT NULL,
+  tanggal DATE NOT NULL,
+  waktu_berangkat VARCHAR(50) NOT NULL,
+  harga DECIMAL(10,2) NOT NULL,
+  jumlah_kursi INT(11) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+-- Membuat tabel 'users'
+CREATE TABLE users (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  nama VARCHAR(100) NOT NULL,
+  email VARCHAR(100) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  no_hp VARCHAR(15) NOT NULL,
+  role ENUM('penumpang', 'sopir') NOT NULL DEFAULT 'penumpang',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE KEY email (email)
+);
+
+-- Membuat tabel 'user_ticket_transactions'
+CREATE TABLE user_ticket_transactions (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  user_id INT(11) NOT NULL,
+  ticket_id INT(11) NOT NULL,
+  seat_number INT(11) NOT NULL,
+  status ENUM('pending', 'completed', 'cancelled') DEFAULT 'pending',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY user_id (user_id),
+  KEY ticket_id (ticket_id),
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (ticket_id) REFERENCES tickets(id) ON DELETE CASCADE
+);
+
+-- Menampilkan struktur tabel setelah dibuat
+SHOW TABLES;
+```
