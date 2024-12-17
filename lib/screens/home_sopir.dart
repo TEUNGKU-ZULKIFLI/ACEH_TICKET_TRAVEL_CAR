@@ -119,14 +119,23 @@ class _HomeSopirState extends State<HomeSopir> {
             end: Alignment.bottomRight,
           ),
         ),
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(15.0),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Image.asset(
-                'assets/img/login_image.jpg',
-                height: 150,
-                fit: BoxFit.cover,
+              Card(
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Image.asset(
+                    'assets/img/login_image.jpg',
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    fit: BoxFit.contain,
+                  ),
+                ),
               ),
               const SizedBox(height: 20),
               // Row untuk dropdown dan tombol
@@ -141,14 +150,18 @@ class _HomeSopirState extends State<HomeSopir> {
                       child: InputDecorator(
                         decoration: const InputDecoration(
                           labelText: 'Dari Kota',
+                          labelStyle: TextStyle(
+                              color: Colors.white,
+                              fontWeight:
+                                  FontWeight.bold), // Menyesuaikan warna font
                           filled: true,
-                          fillColor: Colors.white,
+                          fillColor: Colors.transparent,
                           border: OutlineInputBorder(),
                         ),
                         child: Text(
                           _kotaAsalController ?? 'Pilih Kota',
                           style: const TextStyle(
-                              color: Colors.black,
+                              color: Colors.white,
                               fontWeight:
                                   FontWeight.bold), // Menyesuaikan warna font
                         ),
@@ -165,14 +178,18 @@ class _HomeSopirState extends State<HomeSopir> {
                       child: InputDecorator(
                         decoration: const InputDecoration(
                           labelText: 'Ke Kota',
+                          labelStyle: TextStyle(
+                              color: Colors.white,
+                              fontWeight:
+                                  FontWeight.bold), // Menyesuaikan warna font
                           filled: true,
-                          fillColor: Colors.white,
+                          fillColor: Colors.transparent,
                           border: OutlineInputBorder(),
                         ),
                         child: Text(
                           _kotaTujuanController ?? 'Pilih Kota',
                           style: const TextStyle(
-                              color: Colors.black,
+                              color: Colors.white,
                               fontWeight:
                                   FontWeight.bold), // Menyesuaikan warna font
                         ),
@@ -188,8 +205,11 @@ class _HomeSopirState extends State<HomeSopir> {
                 readOnly: true,
                 decoration: const InputDecoration(
                   labelText: 'Tanggal (YYYY-MM-DD)',
+                  labelStyle: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold), // Menyesuaikan warna font
                   filled: true,
-                  fillColor: Colors.white,
+                  fillColor: Colors.transparent,
                   border: OutlineInputBorder(),
                 ),
                 onTap: () async {
@@ -214,14 +234,17 @@ class _HomeSopirState extends State<HomeSopir> {
                 child: InputDecorator(
                   decoration: const InputDecoration(
                     labelText: 'Shift',
+                    labelStyle: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold), // Menyesuaikan warna font
                     filled: true,
-                    fillColor: Colors.white,
+                    fillColor: Colors.transparent,
                     border: OutlineInputBorder(),
                   ),
                   child: Text(
                     _selectedWaktuBerangkat ?? 'Pilih Shift',
                     style: const TextStyle(
-                        color: Colors.black,
+                        color: Colors.white,
                         fontWeight: FontWeight.bold), // Menyesuaikan warna font
                   ),
                 ),
@@ -237,8 +260,12 @@ class _HomeSopirState extends State<HomeSopir> {
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
                         labelText: 'Harga (Rp)',
+                        labelStyle: TextStyle(
+                            color: Colors.white,
+                            fontWeight:
+                                FontWeight.bold), // Menyesuaikan warna font
                         filled: true,
-                        fillColor: Colors.white,
+                        fillColor: Colors.transparent,
                         border: OutlineInputBorder(),
                       ),
                     ),
@@ -251,15 +278,19 @@ class _HomeSopirState extends State<HomeSopir> {
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
                         labelText: 'Jumlah Kursi',
+                        labelStyle: TextStyle(
+                            color: Colors.white,
+                            fontWeight:
+                                FontWeight.bold), // Menyesuaikan warna font
                         filled: true,
-                        fillColor: Colors.white,
+                        fillColor: Colors.transparent,
                         border: OutlineInputBorder(),
                       ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 25),
+              const SizedBox(height: 20),
               // Tombol untuk submit
               ElevatedButton(
                 onPressed: _createTicket,
@@ -279,7 +310,6 @@ class _HomeSopirState extends State<HomeSopir> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
             ],
           ),
         ),
@@ -296,7 +326,7 @@ class _HomeSopirState extends State<HomeSopir> {
           title: Text(
             'Pilih Kota $jenis',
             style: const TextStyle(
-                color: Colors.black,
+                color: Colors.purple,
                 fontWeight: FontWeight.bold), // Menyesuaikan warna font
           ),
           content: SingleChildScrollView(
@@ -319,7 +349,9 @@ class _HomeSopirState extends State<HomeSopir> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(kota,
                         style: const TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold)),
+                            color: Colors.black,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold)),
                   ),
                 );
               }).toList(),
@@ -339,7 +371,7 @@ class _HomeSopirState extends State<HomeSopir> {
           title: const Text(
             'Pilih Shift',
             style: TextStyle(
-                color: Colors.black,
+                color: Colors.purple,
                 fontWeight: FontWeight.bold), // Menyesuaikan warna font
           ),
           content: SingleChildScrollView(
@@ -356,7 +388,9 @@ class _HomeSopirState extends State<HomeSopir> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(waktu,
                         style: const TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold)),
+                            color: Colors.black,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold)),
                   ),
                 );
               }).toList(),

@@ -290,7 +290,6 @@ class _HomePelangganState extends State<HomePelanggan> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
             ],
           ),
         ),

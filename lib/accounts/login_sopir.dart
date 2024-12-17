@@ -11,9 +11,9 @@ class LoginSopir extends StatefulWidget {
 class _LoginSopirState extends State<LoginSopir> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _isLoading = false; // Variable to track loading state
+  bool _isLoading = false;
 
-  // Validating the form
+  // Fungsi Login
   Future<void> _login() async {
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -24,7 +24,7 @@ class _LoginSopirState extends State<LoginSopir> {
     }
 
     setState(() {
-      _isLoading = true; // Start loading
+      _isLoading = true;
     });
 
     try {
@@ -40,7 +40,7 @@ class _LoginSopirState extends State<LoginSopir> {
         final data = json.decode(response.body);
 
         if (data['success']) {
-          String role = data['user']['role']; // Mendapatkan role dari respons
+          String role = data['user']['role'];
 
           if (role == 'sopir') {
             Navigator.pushReplacement(
@@ -74,7 +74,7 @@ class _LoginSopirState extends State<LoginSopir> {
       ));
     } finally {
       setState(() {
-        _isLoading = false; // Stop loading
+        _isLoading = false;
       });
     }
   }
@@ -85,53 +85,120 @@ class _LoginSopirState extends State<LoginSopir> {
       appBar: AppBar(
         title: Text(
           'LOGIN 🔑 SOPIR',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          style: TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
         ),
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Color(0xFF6B21A8), // Ungu Tua
         centerTitle: true,
       ),
-      body: Container(
-        color: Colors.lightBlue[50],
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Image.asset('assets/img/login_image.jpg',
-                height: 150, fit: BoxFit.cover),
-            SizedBox(height: 20),
-            TextFormField(
-              controller: _emailController,
-              decoration: InputDecoration(
-                labelText: 'Email',
-                filled: true,
-                fillColor: Colors.white,
-                border: OutlineInputBorder(),
+      body: Stack(
+        children: [
+          // Background Gradient dengan Gradasi Ungu dan Biru
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color(0xFF6B21A8), // Ungu Tua
+                  Color(0xFF9D4EDD), // Ungu Muda
+                  Color(0xFF4F73A1), // Biru Muda
+                ],
               ),
             ),
-            SizedBox(height: 16),
-            TextFormField(
-              controller: _passwordController,
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                filled: true,
-                fillColor: Colors.white,
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(height: 20),
-            _isLoading
-                ? CircularProgressIndicator() // Show a loading spinner
-                : ElevatedButton(
-                    onPressed: _login,
-                    child: Text('Login'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+          ),
+
+          // Form Login di Tengah
+          Center(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Logo Aplikasi
+                    Card(
+                      elevation: 10,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Image.asset(
+                          'assets/img/login_image.jpg', // Path logo
+                          height: MediaQuery.of(context).size.height * 0.2,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
                     ),
-                  ),
-          ],
-        ),
+                    SizedBox(height: 30),
+
+                    // Input Email
+                    TextFormField(
+                      controller: _emailController,
+                      enabled: !_isLoading, // Disable saat loading
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                        labelStyle: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                        filled: true,
+                        fillColor: Colors.white,
+                        prefixIcon: Icon(Icons.email, color: Colors.blue),
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    SizedBox(height: 16),
+
+                    // Input Password
+                    TextFormField(
+                      controller: _passwordController,
+                      obscureText: true,
+                      enabled: !_isLoading,
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        labelStyle: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                        filled: true,
+                        fillColor: Colors.white,
+                        prefixIcon: Icon(Icons.lock, color: Colors.blue),
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+
+                    // Tombol Login atau Loading
+                    _isLoading
+                        ? CircularProgressIndicator()
+                        : ElevatedButton(
+                            onPressed: _login,
+                            child: Text(
+                              'Login',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(0xFF4F73A1), // Biru Muda
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 50, vertical: 15),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              elevation: 5,
+                            ),
+                          ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
