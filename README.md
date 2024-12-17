@@ -1,16 +1,17 @@
 <div align="center">
 
 # **ACEH TICKET TRAVEL CAR (ATTC)**
-
-<div align="center">
-  <img src="https://cdn.icon-icons.com/icons2/12/PNG/256/travel_car_BMV_1741.png" alt="Sistem Pemesanan Tiket Travel Mobil">
 </div>
 
-## Deskripsi
+<div align="center">
+  <img src="assets/img/login_image.jpg" alt="Sistem Pemesanan Tiket Travel Mobil" style="width: 500px; border-radius: 100%;">
+</div>
+
+# Deskripsi
 
 Sistem Pemesanan Tiket Travel Mobil adalah aplikasi mobile yang memudahkan pengguna untuk memesan tiket perjalanan dengan mobil angkutan. Pengguna dapat memasukkan rute perjalanan yang diinginkan, dan sistem akan mencari apakah ada data valid dalam database. Jika ada, informasi pemesanan tiket akan ditampilkan; jika tidak, sistem akan memberi tahu bahwa tidak ada data yang sesuai.
 
-## Anggota Proyek
+# Anggota Proyek
 
 | Foto                                               | Peran                                                                                     |
 |----------------------------------------------------|-------------------------------------------------------------------------------------------|
@@ -22,29 +23,27 @@ Sistem Pemesanan Tiket Travel Mobil adalah aplikasi mobile yang memudahkan pengg
 | <div align="center"> ![Rahmat Hidayat](https://avatars.githubusercontent.com/u/160695745?v=4) <br> **Rahmat Hidayat** </div> | **Pengembang Database** - Mengelola dan merancang struktur database yang efisien untuk aplikasi. |
 
 
-## Fitur Utama
-</div>
+
+# Fitur Utama
 
 - **PESAN TIKET**: 
   - Pemesanan tiket secara online untuk menghindari pungli.
 
-<div align="center">
 
-## Teknologi yang Digunakan
-</div>
+# Teknologi yang Digunakan
 
 - **Flutter**: Framework untuk membangun aplikasi mobile.
 - **MYSQL**: Backend untuk autentikasi dan database.
 
 ---
+
 <div align="center">
 
-# **Jobdesk Tim Proyek Sistem Ticket Travel Car** 🏃🏻‍♂️‍➡️ **1 DESEMBER 2024** s/d 🎯 **11 DESEMBER 2024** 🏆
+# **Jobdesk Tim Proyek Sistem Ticket Travel Car** 🏃🏻‍♂️‍➡️ **24 DESEMBER 2024** s/d 🎯 **01 JANUARI 2025** 🏆
+# FIXED TO COMPLETED AND RELEASE V.1.0
 </div>
 
 ## SEMUA ANGGOTA DIWAJIBKAN MEMAHAMI DARI AWAL SISTEM (BAGAIMANA SISTEM ITU BERKERJA) HINGGA TITIK PENGHABISAN
-## untuk database sudah diperbarui, monggo di unduh.
-
 ### **Catatan:**
 - Setiap anggota diharapkan menyelesaikan tugas sesuai dengan deadline yang telah ditetapkan.
 - Pastikan semua komponen diuji dengan baik sebelum digabungkan dalam proyek utama.
@@ -64,7 +63,7 @@ flutter run -d chrome --web-browser-flag "--disable-web-security"
   </a>
 </div>
 
-## UNTUK SEPUH CODE SQL DATABASE RECOMENDED MENJALANKAN INI SAJA
+# UNTUK SEPUH CODE SQL DATABASE RECOMENDED MENJALANKAN INI SAJA
 ```CODINGAN
 -- Menghapus database jika sudah ada
 DROP DATABASE IF EXISTS aceh_travel;

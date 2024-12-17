@@ -62,9 +62,9 @@ class PaymentPage extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
-                        // Add your onPressed code here!
+                        // Kembali ke halaman
                       },
-                      child: const Text('Bayar Sekarang'),
+                      child: const Text('Ke HOME 🏃🏻‍➡️🏡'),
                     ),
                   ],
                 ),
